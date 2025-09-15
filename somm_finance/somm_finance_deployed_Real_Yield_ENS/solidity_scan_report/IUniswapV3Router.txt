@@ -1,0 +1,32 @@
+SolidityScan result for code-sample/src/interfaces/external/IUniswapV3Router.sol:
+#	NAME	SEVERITY	CONFIDENCE	DESCRIPTION	REMEDIATION
+1.	USE OF FLOATING PRAGMA	low	2	
+Solidity source files indicate the versions of the compiler they can be compiled with using a pragma directive at the top of the solidity file. This can either be a floating pragma or a specific compiler version.
+The contract was found to be using a floating pragma which is not considered safe as it can be compiled with all the versions described.
+
+Not Available
+2.	OUTDATED COMPILER VERSION	low	2	
+Using an outdated compiler version can be problematic especially if there are publicly disclosed bugs and issues that affect the current compiler version.
+
+Not Available
+3.	INTERFACES SHOULD BE DECLARED IN A SEPARATE FILE	informational	1	
+Interfaces should be declared in separate files to maintain modularity and improve code organization. Mixing interfaces with contract implementations reduces readability, complicates contract maintenance, and increases the likelihood of unintended modifications.
+
+Not Available
+4.	SIMILAR DATATYPES CAN BE PACKED TOGETHER	gas	0	
+The contract is found to be using similar data types within a struct, leading to extra gas usage in Solidity. When a struct incorporates fields with identical data types (such as multiple uint256 variables), failing to pack them efficiently can result in alignment gaps and increased gas consumption due to inefficient storage usage.
+
+Lines: ["26:35","55:64"]	
+It is advisable to implement effective struct packing techniques. By organizing struct fields with similar data types sequentially and ensuring proper alignment, you can minimize storage overhead and optimize gas consumption.
+
+Scan Summary:
+
+  Lines Analyzed: 74
+
+  Scan Score: 96.55
+
+  Issue Distribution: { "critical": 0, "gas": 2, "high": 0, "informational": 1, "low": 2, "medium": 0 }
+
+For more details, go to SolidityScan.
+
+>

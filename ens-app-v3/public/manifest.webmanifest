@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "ENS App",
+  "short_name": "ENS",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "orientation": "portrait-primary",
+  "theme_color": "#5298FF",
+  "background_color": "#F7F7F7",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "description": "Decentralised naming for wallets, websites, & more"
+}

@@ -1,0 +1,72 @@
+{
+  "ts-node": {
+    "experimentalResolver": true,
+    "files": true,
+    "compilerOptions": {
+      "module": "CommonJS",
+      "target": "ESNext",
+      "moduleResolution": "node",
+      "strict": true,
+      "esModuleInterop": true,
+      "allowJs": true,
+      "checkJs": false,
+      "plugins": [
+        {
+          "name": "typescript-styled-plugin",
+          "tags": ["styled", "css"]
+        }
+      ]
+    }
+  },
+  "compilerOptions": {
+    "target": "es2020",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "downlevelIteration": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "rootDir": ".",
+    "baseUrl": "./",
+    "incremental": true,
+    "noErrorTruncation": true,
+    "paths": {
+      "@app/*": ["./src/*"],
+      "@public/*": ["./public/*"],
+      "@root/*": ["./*"],
+      "rainbow-sprinkles": ["./node_modules/rainbow-sprinkles/"]
+    },
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin",
+        "tags": ["styled", "css"],
+        "validate": false,
+        "lint": {
+          "validProperties": ["flex-gap"]
+        }
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    "mdx.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "next.config.mjs",
+    "vitest.config.mts",
+    "test/*.mts",
+    "test/**/*.ts",
+    "typings-custom/generated/*.d.ts",
+    "typings-custom/local-contracts.d.ts",
+    "./node_modules/@ensdomains/ens-contracts/artifacts",
+    "./deploy/.utils/*.ts"
+  ],
+  "exclude": ["**/*.ignore.ts", "**/*.ignore.tsx", "functions/**/*"]
+}

@@ -1,0 +1,23 @@
+{
+	"name": "@aviator/root",
+	"private": true,
+	"scripts": {
+		"test": "forge test",
+		"coverage:summary": "forge coverage",
+		"coverage:full": "forge coverage && forge coverage --report debug > results.txt",
+		"coverage:lcov": "forge coverage --report lcov && genhtml lcov.info --branch-coverage --output-dir coverage --ignore-errors inconsistent"
+	},
+	"dependencies": {
+		"@eth-optimism/contracts-bedrock": "^0.17.3",
+		"@openzeppelin/contracts": "https://gitpkg.now.sh/OpenZeppelin/openzeppelin-contracts/contracts?dc44c9f1a4c3b10af99492eed84f83ed244203f6",
+		"@openzeppelin/contracts-upgradeable": "https://gitpkg.now.sh/OpenZeppelin/openzeppelin-contracts-upgradeable/contracts?2d081f24cac1a867f6f73d512f2022e1fa987854",
+		"@rari-capital/solmate": "https://gitpkg.now.sh/transmissions11/solmate?8f9b23f8838670afda0fd8983f2c41e8037ae6bc",
+		"@safe-global/safe-smart-account": "https://gitpkg.now.sh/safe-global/safe-smart-account?e870f514ad34cd9654c72174d6d4a839e3c6639f",
+		"clones-with-immutable-args": "^1.1.2"
+	},
+	"packageManager": "yarn@4.3.1",
+	"volta": {
+		"node": "20.11.1",
+		"yarn": "4.3.1"
+	}
+}

@@ -1,0 +1,1186 @@
+C001
+
+Critical
+
+CONTROLLED LOW-LEVEL CALL
+
+2
+
+Automated
+
+
+Pending Fix
+
+C002
+
+Critical
+
+INCORRECT ACCESS CONTROL
+
+9
+
+Automated
+
+
+Pending Fix
+
+H001
+
+High
+
+DELEGATECALL INSIDE A LOOP
+
+1
+
+Automated
+
+
+Pending Fix
+
+H002
+
+High
+
+ERC4626 INFLATION ATTACK
+
+1
+
+Automated
+
+
+Pending Fix
+
+H003
+
+High
+
+IMPROPER VALIDATION IN REQUIRE/ASSERT STATEMENTS
+
+2
+
+Automated
+
+
+Pending Fix
+
+H004
+
+High
+
+REENTRANCY
+
+1
+
+Automated
+
+
+Pending Fix
+
+H005
+
+High
+
+SIGNATURE MALLEABILITY
+
+1
+
+Automated
+
+
+Pending Fix
+
+M001
+
+Medium
+
+CURVE STALE PRICE ORACLE
+
+2
+
+Automated
+
+
+Pending Fix
+
+M002
+
+Medium
+
+DEPRECATED CHAINLINK PRICEFEED
+
+1
+
+Automated
+
+
+Pending Fix
+
+Page 15
+
+SolidityScan
+
+A security assessment report
+
+S. No.
+
+Severity
+
+Bug Type
+
+Instances
+
+Detection Method
+
+Status
+
+M003
+
+Medium
+
+IMPRECISE ARITHMETIC OPERATIONS ORDER
+
+3
+
+Automated
+
+
+Pending Fix
+
+M004
+
+Medium
+
+UNCHECKED ARRAY LENGTH
+
+8
+
+Automated
+
+
+Pending Fix
+
+M005
+
+Medium
+
+HASH COLLISIONS WITH BYTES ARGUMENT ON ABI.ENCODEPACKED
+
+1
+
+Automated
+
+
+Pending Fix
+
+M006
+
+Medium
+
+LIMITATIONS OF SOLIDITY'S TRY-CATCH IN EXTERNAL CALLS
+
+2
+
+Automated
+
+
+Pending Fix
+
+M007
+
+Medium
+
+PRECISION LOSS DURING DIVISION BY LARGE NUMBERS
+
+3
+
+Automated
+
+
+Pending Fix
+
+M008
+
+Medium
+
+MISSING VALIDATIONS IN TRANSFERHELPER
+
+4
+
+Automated
+
+
+Pending Fix
+
+M009
+
+Medium
+
+OPENZEPPELIN ERC4626 INFLATION ATTACK
+
+1
+
+Automated
+
+
+Pending Fix
+
+L001
+
+Low
+
+DATA LOCATION INCONSISTENCY DURING INHERITANCE IN SOLIDITY CONTRACTS
+
+1
+
+Automated
+
+
+Pending Fix
+
+L002
+
+Low
+
+ERROR-PRONE TYPECASTING
+
+2
+
+Automated
+
+
+Pending Fix
+
+L003
+
+Low
+
+EVENT BASED REENTRANCY
+
+2
+
+Automated
+
+
+Pending Fix
+
+L004
+
+Low
+
+USE OF FLOATING PRAGMA
+
+7
+
+Automated
+
+
+Pending Fix
+
+L005
+
+Low
+
+FUNCTION RETURNS TYPE AND NO RETURN
+
+2
+
+Automated
+
+
+Pending Fix
+
+L006
+
+Low
+
+LEGACY CODE GENERATION ISSUE WITH .SELECTOR ACCESS ON EXPRESSIONS WITH SIDE EFFECTS
+
+4
+
+Automated
+
+
+Pending Fix
+
+L007
+
+Low
+
+MISSING EVENTS
+
+37
+
+Automated
+
+
+Pending Fix
+
+Page 16
+
+SolidityScan
+
+A security assessment report
+
+S. No.
+
+Severity
+
+Bug Type
+
+Instances
+
+Detection Method
+
+Status
+
+L008
+
+Low
+
+MISSING ZERO ADDRESS VALIDATION
+
+30
+
+Automated
+
+
+Pending Fix
+
+L009
+
+Low
+
+NONREENTRANT MODIFIER PLACEMENT
+
+1
+
+Automated
+
+
+Pending Fix
+
+L010
+
+Low
+
+OUTDATED COMPILER VERSION
+
+19
+
+Automated
+
+
+Pending Fix
+
+L011
+
+Low
+
+USE OF MULTIPLE PRAGMA VERSIONS
+
+1
+
+Automated
+
+
+Pending Fix
+
+L012
+
+Low
+
+USE OF _MINT()
+
+1
+
+Automated
+
+
+Pending Fix
+
+L013
+
+Low
+
+USE OWNABLE2STEP
+
+2
+
+Automated
+
+
+Pending Fix
+
+I001
+
+Informational
+
+ABI.ENCODEPACKED MAY CAUSE COLLISION
+
+3
+
+Automated
+
+
+Pending Fix
+
+I002
+
+Informational
+
+ADDING A RETURN STATEMENT WHEN THE FUNCTION DEFINES A NAMED RETURN VARIABLE IS REDUNDANT
+
+1
+
+Automated
+
+
+Pending Fix
+
+I003
+
+Informational
+
+HARD-CODED ADDRESS DETECTED
+
+5
+
+Automated
+
+
+Pending Fix
+
+I004
+
+Informational
+
+AVOID ARITHMETIC DIRECTLY WITHIN ARRAY INDICES
+
+12
+
+Automated
+
+
+Pending Fix
+
+I005
+
+Informational
+
+BLOCK VALUES AS A PROXY FOR TIME
+
+16
+
+Automated
+
+
+Pending Fix
+
+I006
+
+Informational
+
+CONSIDER USING UINT48 FOR TIME-RELATED VARIABLES
+
+7
+
+Automated
+
+
+Pending Fix
+
+I007
+
+Informational
+
+CONSTRUCTORS SHOULD EMIT AN EVENT
+
+2
+
+Automated
+
+
+Pending Fix
+
+I008
+
+Informational
+
+CONTRACT NAME SHOULD USE PASCALCASE
+
+3
+
+Automated
+
+
+Pending Fix
+
+I009
+
+Informational
+
+IF-STATEMENT REFACTORING
+
+3
+
+Automated
+
+
+Pending Fix
+
+I010
+
+Informational
+
+INTERFACES SHOULD BE DECLARED IN A SEPARATE FILE
+
+2
+
+Automated
+
+
+Pending Fix
+
+Page 17
+
+SolidityScan
+
+A security assessment report
+
+S. No.
+
+Severity
+
+Bug Type
+
+Instances
+
+Detection Method
+
+Status
+
+I011
+
+Informational
+
+MISSING INDEXED KEYWORDS IN EVENTS
+
+14
+
+Automated
+
+
+Pending Fix
+
+I012
+
+Informational
+
+MISSING UNDERSCORE IN NAMING VARIABLES
+
+31
+
+Automated
+
+
+Pending Fix
+
+I013
+
+Informational
+
+RETURN INSIDE LOOP
+
+3
+
+Automated
+
+
+Pending Fix
+
+I014
+
+Informational
+
+REQUIRE INSTEAD OF REVERT
+
+2
+
+Automated
+
+
+Pending Fix
+
+I015
+
+Informational
+
+REVERT STATEMENTS WITHIN EXTERNAL AND PUBLIC FUNCTIONS CAN BE USED TO PERFORM DOS ATTACKS
+
+51
+
+Automated
+
+
+Pending Fix
+
+I016
+
+Informational
+
+REWRITE ON ASSEMBLY CALL
+
+4
+
+Automated
+
+
+Pending Fix
+
+I017
+
+Informational
+
+USE OF DECIMALS
+
+12
+
+Automated
+
+
+Pending Fix
+
+I018
+
+Informational
+
+USE SCIENTIFIC NOTATION
+
+9
+
+Automated
+
+
+Pending Fix
+
+I019
+
+Informational
+
+IN-LINE ASSEMBLY DETECTED
+
+8
+
+Automated
+
+
+Pending Fix
+
+I020
+
+Informational
+
+VARIABLES SHOULD BE IMMUTABLE
+
+5
+
+Automated
+
+
+Pending Fix
+
+G001
+
+Gas
+
+ABI ENCODE IS LESS EFFICIENT THAN ABI ENCODEPACKED
+
+8
+
+Automated
+
+
+Pending Fix
+
+G002
+
+Gas
+
+ARRAY LENGTH CACHING
+
+16
+
+Automated
+
+
+Pending Fix
+
+G003
+
+Gas
+
+ASSIGNING TO STRUCTS CAN BE MORE EFFICIENT
+
+3
+
+Automated
+
+
+Pending Fix
+
+G004
+
+Gas
+
+AVOID RE-STORING VALUES
+
+18
+
+Automated
+
+
+Pending Fix
+
+G005
+
+Gas
+
+AVOID ZERO-TO-ONE STORAGE WRITES
+
+11
+
+Automated
+
+
+Pending Fix
+
+G006
+
+Gas
+
+CACHE ADDRESS(THIS) WHEN USED MORE THAN ONCE
+
+14
+
+Automated
+
+
+Pending Fix
+
+Page 18
+
+SolidityScan
+
+A security assessment report
+
+S. No.
+
+Severity
+
+Bug Type
+
+Instances
+
+Detection Method
+
+Status
+
+G007
+
+Gas
+
+CHEAPER CONDITIONAL OPERATORS
+
+6
+
+Automated
+
+
+Pending Fix
+
+G008
+
+Gas
+
+CHEAPER INEQUALITIES IN IF()
+
+22
+
+Automated
+
+
+Pending Fix
+
+G009
+
+Gas
+
+CHEAPER INEQUALITIES IN REQUIRE()
+
+1
+
+Automated
+
+
+Pending Fix
+
+G010
+
+Gas
+
+CONSTANT STATE VARIABLES
+
+1
+
+Automated
+
+
+Pending Fix
+
+G011
+
+Gas
+
+CUSTOM ERRORS TO SAVE GAS
+
+7
+
+Automated
+
+
+Pending Fix
+
+G012
+
+Gas
+
+DEFAULT INT VALUES ARE MANUALLY RESET
+
+12
+
+Automated
+
+
+Pending Fix
+
+G013
+
+Gas
+
+DEFINE CONSTRUCTOR AS PAYABLE
+
+4
+
+Automated
+
+
+Pending Fix
+
+G014
+
+Gas
+
+EMIT USED IN LOOP
+
+2
+
+Automated
+
+
+Pending Fix
+
+G015
+
+Gas
+
+FUNCTIONS CAN BE IN-LINED
+
+16
+
+Automated
+
+
+Pending Fix
+
+G016
+
+Gas
+
+REVERTING FUNCTIONS CAN BE PAYABLE
+
+32
+
+Automated
+
+
+Pending Fix
+
+G017
+
+Gas
+
+GAS OPTIMIZATION FOR STATE VARIABLES
+
+4
+
+Automated
+
+
+Pending Fix
+
+G018
+
+Gas
+
+GAS OPTIMIZATION IN INCREMENTS
+
+15
+
+Automated
+
+
+Pending Fix
+
+G019
+
+Gas
+
+INTERNAL FUNCTIONS NEVER USED
+
+9
+
+Automated
+
+
+Pending Fix
+
+G020
+
+Gas
+
+LONG NUMBER LITERALS
+
+2
+
+Automated
+
+
+Pending Fix
+
+G021
+
+Gas
+
+NAMED RETURN OF LOCAL VARIABLE SAVES GAS AS COMPARED TO RETURN STATEMENT
+
+4
+
+Automated
+
+
+Pending Fix
+
+G022
+
+Gas
+
+OPTIMIZING ADDRESS ID MAPPING
+
+8
+
+Automated
+
+
+Pending Fix
+
+G023
+
+Gas
+
+PUBLIC CONSTANTS CAN BE PRIVATE
+
+14
+
+Automated
+
+
+Pending Fix
+
+G024
+
+Gas
+
+SIMILAR DATATYPES CAN BE PACKED TOGETHER
+
+2
+
+Automated
+
+
+Pending Fix
+
+G025
+
+Gas
+
+SMALLER DATA TYPES COST MORE
+
+6
+
+Automated
+
+
+Pending Fix
+
+G026
+
+Gas
+
+SPLITTING REVERT STATEMENTS
+
+1
+
+Automated
+
+
+Pending Fix
+
+Page 19
+
+SolidityScan
+
+A security assessment report
+
+S. No.
+
+Severity
+
+Bug Type
+
+Instances
+
+Detection Method
+
+Status
+
+G027
+
+Gas
+
+STORAGE VARIABLE CACHING IN MEMORY
+
+37
+
+Automated
+
+
+Pending Fix
+
+G028
+
+Gas
+
+STORING STORAGE VARIABLES IN MEMORY
+
+15
+
+Automated
+
+
+Pending Fix
+
+G029
+
+Gas
+
+UNNECESSARY CHECKED ARITHMETIC IN LOOP
+
+25
+
+Automated
+
+
+Pending Fix
+
+G030
+
+Gas
+
+UNNECESSARY DEFAULT VALUE INITIALIZATION
+
+2
+
+Automated
+
+
+Pending Fix
+
+G031
+
+Gas
+
+UNUSED IMPORTS
+
+6
+
+Automated
+
+
+Pending Fix
+
+G032
+
+Gas
+
+USE BYTES.CONCAT() INSTEAD OF ABI.ENCODEPACKED
+
+2
+
+Automated
+
+
+Pending Fix
+
+G033
+
+Gas
+
+USE SOLADY LIB WHEN POSSIBLE
+
+1
+
+Automated
+
+
+Pending Fix
+
+G034
+
+Gas
+
+USING BITMAPS INSTEAD OF BOOLEANS FOR GAS OPTIMIZATION
+
+1
+
+Automated
+
+
+Pending Fix
+
+G035
+
+Gas
+
+VARIABLES DECLARED BUT NEVER USED
+
+1
+
+Automated
+
+
+Pending Fix
+
+Page 20
+
+SolidityScan
+

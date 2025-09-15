@@ -1,0 +1,25 @@
+name: Knip
+
+on: [push]
+
+jobs:
+  knip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install corepack
+        run: npm i -g corepack
+
+      - name: Install pnpm
+        run: npm i -g --force corepack && corepack enable pnpm
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm knip

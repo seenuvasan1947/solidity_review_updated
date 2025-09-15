@@ -1,0 +1,24 @@
+
+#	NAME	SEVERITY	CONFIDENCE	DESCRIPTION	REMEDIATION
+1.	OUTDATED COMPILER VERSION	low	2	
+Using an outdated compiler version can be problematic especially if there are publicly disclosed bugs and issues that affect the current compiler version.
+
+Not Available
+2.	USE OF FLOATING PRAGMA	low	2	
+Solidity source files indicate the versions of the compiler they can be compiled with using a pragma directive at the top of the solidity file. This can either be a floating pragma or a specific compiler version.
+The contract was found to be using a floating pragma which is not considered safe as it can be compiled with all the versions described.
+
+Not Available
+3.	INTERFACES SHOULD BE DECLARED IN A SEPARATE FILE	informational	1	
+Interfaces should be declared in separate files to maintain modularity and improve code organization. Mixing interfaces with contract implementations reduces readability, complicates contract maintenance, and increases the likelihood of unintended modifications.
+
+Not Available
+Scan Summary:
+
+  Lines Analyzed: 178
+
+  Scan Score: 98.85
+
+  Issue Distribution: { "critical": 0, "gas": 0, "high": 0, "informational": 1, "low": 2, "medium": 0 }
+
+For more details, go to SolidityScan.

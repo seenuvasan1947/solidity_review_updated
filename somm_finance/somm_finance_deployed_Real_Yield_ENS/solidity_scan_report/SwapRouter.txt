@@ -1,0 +1,126 @@
+SolidityScan result for code-sample/src/modules/swap-router/SwapRouter.sol:
+#	NAME	SEVERITY	CONFIDENCE	DESCRIPTION	REMEDIATION
+1.	CONTROLLED LOW-LEVEL CALL	critical	1	
+The contract was using delegatecall() or call() which was accepting address controlled by a user. This can have devastating effects on the contract as a delegate call allows the contract to execute code belonging to other contracts but using it’s own storage. This can very easily lead to a loss of funds and compromise of the contract.
+
+Not Available
+2.	INCORRECT ACCESS CONTROL	critical	1	
+Access control plays an important role in the segregation of privileges in smart contracts and other applications. If this is misconfigured or not properly validated on sensitive functions, it may lead to loss of funds, tokens and in some cases compromise of the smart contract.
+
+The contract is importing an access control library but the function is missing the modifier.
+
+Not Available
+3.	OUTDATED COMPILER VERSION	low	2	
+Using an outdated compiler version can be problematic especially if there are publicly disclosed bugs and issues that affect the current compiler version.
+
+Not Available
+4.	LEGACY CODE GENERATION ISSUE WITH .SELECTOR ACCESS ON EXPRESSIONS WITH SIDE EFFECTS	low	2	
+A bug in the legacy code generation pipeline of the Solidity compiler was identified on June 26, 2023. This bug affected the evaluation of expressions with side effects when accessing the .selector member. As a result, side effects of such expressions were not executed, potentially leading to incorrect contract behavior. This issue has been present since version 0.6.2 of the compiler but has not been exploited or reported externally. The new IR-based code generator does not have this issue and evaluates expressions correctly.
+
+Not Available
+5.	MISSING EVENTS	low	1	
+Events are inheritable members of contracts. When you call them, they cause the arguments to be stored in the transaction’s log — a special data structure in the blockchain.
+These logs are associated with the address of the contract which can then be used by developers and auditors to keep track of the transactions.
+The contract was found to be missing these events on the function which would make it difficult or impossible to track these transactions off-chain.
+
+Not Available
+6.	AVOID ARITHMETIC DIRECTLY WITHIN ARRAY INDICES	informational	1	
+Using arithmetic directly within array indices (array[i + 2]) can introduce risks such as accessing invalid positions, leading to runtime errors. It also reduces code clarity, making it harder to debug and maintain. Instead, compute the index beforehand and store it in a variable for better readability and reliability.
+
+Not Available
+7.	BLOCK VALUES AS A PROXY FOR TIME	informational	1	
+Contracts often need access to time values to perform certain types of functionality. Values such as block.timestamp and block.number can be used to determine the current time or the time delta. However, they are not recommended for most use cases.
+
+
+For block.number, as Ethereum block times are generally around 14 seconds, the delta between blocks can be predicted. The block times, on the other hand, do not remain constant and are subject to change for a number of reasons, e.g., fork reorganizations and the difficulty bomb.
+
+
+Due to variable block times, block.number should not be relied on for precise calculations of time.
+
+Not Available
+8.	ABI.ENCODEPACKED MAY CAUSE COLLISION	informational	2	
+The contract is found to be using abi.encodePacked(), which may lead to hash collisions when handling multiple variable-length arguments. Hash collisions occur because abi.encodePacked() concatenates all elements in order without distinguishing between different data types or their lengths. This issue is particularly concerning when the concatenated data is controlled or influenced by external users, but it can also arise internally due to repetitive patterns or complex data structures.
+
+Not Available
+9.	IF-STATEMENT REFACTORING	informational	0	
+In Solidity, we aim to write clear, efficient code that is both easy to understand and maintain. If statements can be converted to ternary operators. While using ternary operators instead of if/else statements can sometimes lead to more concise code, it's crucial to understand the trade-offs involved.
+
+Not Available
+10.	REVERT STATEMENTS WITHIN EXTERNAL AND PUBLIC FUNCTIONS CAN BE USED TO PERFORM DOS ATTACKS	informational	0	
+In public and external functions, improper use of revert can be exploited for Denial of Service (DoS) attacks. An attacker can intentionally trigger these 'revert' conditions, causing legitimate transactions to consistently fail. For example, if a function relies on specific conditions from user input or contract state, an attacker could manipulate these to continually force reverts, blocking the function's execution.
+
+Not Available
+11.	IN-LINE ASSEMBLY DETECTED	informational	2	
+Inline assembly is a way to access the Ethereum Virtual Machine at a low level. This bypasses several important safety features and checks of Solidity. This should only be used for tasks that need it and if there is confidence in using it.
+
+
+Multiple vulnerabilities have been detected previously when the assembly is not properly used within the Solidity code; therefore, caution should be exercised while using them.
+
+Not Available
+12.	CHEAPER CONDITIONAL OPERATORS	gas	0	
+During compilation, x != 0 is cheaper than x > 0 for unsigned integers in solidity inside conditional statements.
+
+Lines: ["102:102"]	
+Consider using x != 0 in place of x > 0 in uint wherever possible.
+
+13.	USE BYTES.CONCAT() INSTEAD OF ABI.ENCODEPACKED	gas	0	
+The contract is found to use abi.encodePacked for concatenating byte variables, which is less gas-efficient compared to using bytes.concat. When concatenation isn't used for hashing operations, preferring bytes.concat can result in more optimized and cost-effective gas consumption.
+
+Lines: ["193:193","195:195"]	
+Refactor instances of abi.encodePacked used solely for concatenation to employ bytes.concat. This change will improve gas efficiency for these operations. Reserve abi.encodePacked for cases where hashing operations follow the concatenation process.
+
+14.	STORING STORAGE VARIABLES IN MEMORY	gas	0	
+Whenever a struct, array, or a mapping is stored and copied to a memory variable, each member is read from the storage and then copied. This becomes expensive. This could easily be optimized by using the storage keyword which just stores a pointer to the storage instead, making the whole process a lot cheaper.
+
+Lines: ["95:97"]	
+It is recommended to use storage instead of memory in this particular case to optimize gas.
+
+15.	CACHE ADDRESS(THIS) WHEN USED MORE THAN ONCE	gas	0	
+The repeated usage of address(this) within the contract could result in increased gas costs due to multiple executions of the same computation, potentially impacting efficiency and overall transaction expenses.
+
+Lines: ["95:95","141:141","187:187","221:221"]	
+Optimize gas usage by caching the value of address(this) and reusing it throughout the contract, reducing redundant computations and thereby enhancing efficiency.
+
+16.	DEFINE CONSTRUCTOR AS PAYABLE	gas	0	
+Developers can save around 10 opcodes and some gas if the constructors are defined as payable.
+
+However, it should be noted that it comes with risks because payable constructors can accept ETH during deployment.
+
+Lines: ["49:57"]	
+It is suggested to mark the constructors as payable to save some gas. Make sure it does not lead to any adverse effects in case an upgrade pattern is involved.
+
+17.	ARRAY LENGTH CACHING	gas	2	
+During each iteration of the loop, reading the length of the array uses more gas than is necessary. In the most favorable scenario, in which the length is read from a memory variable, storing the array length in the stack can save about 3 gas per iteration. In the least favorable scenario, in which external calls are made during each iteration, the amount of gas wasted can be significant.
+
+Lines: ["194:195"]	
+Consider storing the array length of the variable before the loop and use the stored length instead of fetching it in each iteration.
+
+18.	GAS OPTIMIZATION IN INCREMENTS	gas	0	
+++i costs less gas compared to i++ or i += 1 for unsigned integers. In i++, the compiler has to create a temporary variable to store the initial value. This is not the case with ++i in which the value is directly incremented and returned, thus, making it a cheaper alternative.
+
+Lines: ["194:194"]	
+Consider changing the post-increments (i++) to pre-increments (++i) as long as the value is not used in any calculations or inside returns. Make sure that the logic of the code is not changed.
+
+19.	STORAGE VARIABLE CACHING IN MEMORY	gas	0	
+The contract is using the state variable multiple times in the function.
+
+SLOADs are expensive (100 gas after the 1st one) compared to MLOAD/MSTORE (3 gas each).
+
+Lines: ["124:158","170:209"]	
+Storage variables read multiple times inside a function should instead be cached in the memory the first time (costing 1 SLOAD) and then read from this cache to avoid multiple SLOADs.
+
+20.	UNNECESSARY CHECKED ARITHMETIC IN LOOP	gas	0	
+Increments inside a loop could never overflow due to the fact that the transaction will run out of gas before the variable reaches its limits. Therefore, it makes no sense to have checked arithmetic in such a place.
+
+Lines: ["194:194"]	
+It is recommended to have the increment value inside the unchecked block to save some gas.
+
+Scan Summary:
+
+  Lines Analyzed: 191
+
+  Scan Score: 61.53
+
+  Issue Distribution: { "critical": 2, "gas": 13, "high": 0, "informational": 13, "low": 6, "medium": 0 }
+
+For more details, go to SolidityScan.

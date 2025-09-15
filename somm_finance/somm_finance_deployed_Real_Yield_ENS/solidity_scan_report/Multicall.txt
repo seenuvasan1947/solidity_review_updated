@@ -1,0 +1,83 @@
+SolidityScan result for code-sample/src/base/Multicall.sol:
+#	NAME	SEVERITY	CONFIDENCE	DESCRIPTION	REMEDIATION
+1.	CONTROLLED LOW-LEVEL CALL	critical	1	
+The contract was using delegatecall() or call() which was accepting address controlled by a user. This can have devastating effects on the contract as a delegate call allows the contract to execute code belonging to other contracts but using it’s own storage. This can very easily lead to a loss of funds and compromise of the contract.
+
+Not Available
+2.	DELEGATECALL INSIDE A LOOP	high	1	
+The contract was found to be using delegatecall inside a loop in a function which was marked as payable.
+
+This may introduce discrepancies in the amount being transferred in the payable function if msg.value is being used. This depends on the logic of the code and should be manually reviewed.
+
+Not Available
+3.	UNCHECKED ARRAY LENGTH	medium	2	
+Ethereum is a very resource-constrained environment. Prices per computational step are orders of magnitude higher than with centralized providers. Moreover, Ethereum miners impose a limit on the total number of Gas consumed in a block. If array.length is large enough, the function exceeds the block gas limit, and transactions calling it will never be confirmed.
+
+for (uint256 i = 0; i < array.length ; i++) { cosltyFunc(); }
+
+
+This becomes a security issue if an external actor influences array.length.
+
+E.g., if an array enumerates all registered addresses, an adversary can register many addresses, causing the problem described above.
+
+Not Available
+4.	OUTDATED COMPILER VERSION	low	2	
+Using an outdated compiler version can be problematic especially if there are publicly disclosed bugs and issues that affect the current compiler version.
+
+Not Available
+5.	MISSING EVENTS	low	1	
+Events are inheritable members of contracts. When you call them, they cause the arguments to be stored in the transaction’s log — a special data structure in the blockchain.
+These logs are associated with the address of the contract which can then be used by developers and auditors to keep track of the transactions.
+The contract was found to be missing these events on the function which would make it difficult or impossible to track these transactions off-chain.
+
+Not Available
+6.	USE OF FLOATING PRAGMA	low	2	
+Solidity source files indicate the versions of the compiler they can be compiled with using a pragma directive at the top of the solidity file. This can either be a floating pragma or a specific compiler version.
+The contract was found to be using a floating pragma which is not considered safe as it can be compiled with all the versions described.
+
+Not Available
+7.	DATA LOCATION INCONSISTENCY DURING INHERITANCE IN SOLIDITY CONTRACTS	low	2	
+The contract is found to be affected by a bug related to data location inconsistency during inheritance. This issue arises when an overriding function changes the data location of its parameters from memory to calldata (or vice versa). The bug, present since Solidity version 0.6.9, can cause a memory pointer to be interpreted as a calldata pointer, leading to incorrect data access. This occurs specifically when an internal call is made to a virtual function, which is then overridden in a derived contract with a different data location.
+
+Not Available
+8.	IN-LINE ASSEMBLY DETECTED	informational	2	
+Inline assembly is a way to access the Ethereum Virtual Machine at a low level. This bypasses several important safety features and checks of Solidity. This should only be used for tasks that need it and if there is confidence in using it.
+
+
+Multiple vulnerabilities have been detected previously when the assembly is not properly used within the Solidity code; therefore, caution should be exercised while using them.
+
+Not Available
+9.	ARRAY LENGTH CACHING	gas	2	
+During each iteration of the loop, reading the length of the array uses more gas than is necessary. In the most favorable scenario, in which the length is read from a memory variable, storing the array length in the stack can save about 3 gas per iteration. In the least favorable scenario, in which external calls are made during each iteration, the amount of gas wasted can be significant.
+
+Lines: ["15:29"]	
+Consider storing the array length of the variable before the loop and use the stored length instead of fetching it in each iteration.
+
+10.	UNNECESSARY CHECKED ARITHMETIC IN LOOP	gas	0	
+Increments inside a loop could never overflow due to the fact that the transaction will run out of gas before the variable reaches its limits. Therefore, it makes no sense to have checked arithmetic in such a place.
+
+Lines: ["15:15"]	
+It is recommended to have the increment value inside the unchecked block to save some gas.
+
+11.	GAS OPTIMIZATION IN INCREMENTS	gas	0	
+++i costs less gas compared to i++ or i += 1 for unsigned integers. In i++, the compiler has to create a temporary variable to store the initial value. This is not the case with ++i in which the value is directly incremented and returned, thus, making it a cheaper alternative.
+
+Lines: ["15:15"]	
+Consider changing the post-increments (i++) to pre-increments (++i) as long as the value is not used in any calculations or inside returns. Make sure that the logic of the code is not changed.
+
+12.	CUSTOM ERRORS TO SAVE GAS	gas	2	
+The contract was found to be using revert() statements. Since Solidity v0.8.4, custom errors have been introduced which are a better alternative to the revert.
+This allows the developers to pass custom errors with dynamic data while reverting the transaction and also making the whole implementation a bit cheaper than using revert.
+
+Lines: ["21:21","25:25"]	
+It is recommended to replace all the instances of revert() statements with error() to save gas.
+
+Scan Summary:
+
+  Lines Analyzed: 27
+
+  Scan Score: 55.09
+
+  Issue Distribution: { "critical": 1, "gas": 5, "high": 1, "informational": 1, "low": 4, "medium": 1 }
+
+For more details, go to SolidityScan.

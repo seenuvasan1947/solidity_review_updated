@@ -1,0 +1,17 @@
+
+SolidityScan result for code-sample/src/interfaces/external/IChainlinkAggregator.sol:
+#	NAME	SEVERITY	CONFIDENCE	DESCRIPTION	REMEDIATION
+1.	OUTDATED COMPILER VERSION	low	2	
+Using an outdated compiler version can be problematic especially if there are publicly disclosed bugs and issues that affect the current compiler version.
+
+Not Available
+Scan Summary:
+
+  Lines Analyzed: 8
+
+  Scan Score: 97.50
+
+  Issue Distribution: { "critical": 0, "gas": 0, "high": 0, "informational": 0, "low": 1, "medium": 0 }
+
+For more details, go to SolidityScan.
+

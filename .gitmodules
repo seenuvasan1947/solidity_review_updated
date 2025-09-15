@@ -1,0 +1,3 @@
+[submodule "somm_finance/somm_finance_deployed_Real_Yield_ENS/lib/forge-std"]
+	path = somm_finance/somm_finance_deployed_Real_Yield_ENS/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std

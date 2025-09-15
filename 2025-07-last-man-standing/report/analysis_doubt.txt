@@ -1,0 +1,4 @@
+is incentive is given to previous king ?? 
+in claim throne previouskingpayout is 0 so in if check current platform fees= setAmount and al other calculation also manipulated  and if is alwasy false ??
+
+currentPlatformFee  how calculation   occuur and update occuur?? fixed

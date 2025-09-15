@@ -1,0 +1,19 @@
+[package]
+name = "aptos-secret-vault"
+version = "1.0.0"
+authors = ["EmanHerawy"]
+
+[addresses]
+owner = "_"
+secret_vault = "_"
+
+[dev-addresses]
+owner = "0xaceb6f740c147867fbbabb5976a8c8fda141c21bf07c3500d0b78ee05148e4b4"
+secret_vault="0x94c3b655333011b3408332fe19f5457581386e4585cf17a5d464cae5ddf34557"
+
+[dependencies.AptosFramework]
+git = "https://github.com/aptos-labs/aptos-framework.git"
+rev = "mainnet"
+subdir = "aptos-framework"
+
+[dev-dependencies]

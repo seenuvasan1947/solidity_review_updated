@@ -1,0 +1,48 @@
+osboxes@osboxes:~/block_chain/2025-07-last-man-standing$ slither .
+'forge clean' running (wd: /home/osboxes/block_chain/2025-07-last-man-standing)
+'forge config --json' running
+'forge build --build-info --skip */test/** */script/** --force' running (wd: /home/osboxes/block_chain/2025-07-last-man-standing)
+INFO:Detectors:
+Reentrancy in Game.withdrawWinnings() (src/Game.sol#256-266):
+	External calls:
+	- (success,None) = address(msg.sender).call{value: amount}() (src/Game.sol#260)
+	State variables written after the call(s):
+	- pendingWinnings[msg.sender] = 0 (src/Game.sol#263)
+	Game.pendingWinnings (src/Game.sol#25) can be used in cross function reentrancies:
+	- Game.declareWinner() (src/Game.sol#235-250)
+	- Game.pendingWinnings (src/Game.sol#25)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities
+INFO:Detectors:
+Game.declareWinner() (src/Game.sol#235-250) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(block.timestamp > lastClaimTime + gracePeriod,Game: Grace period has not expired yet.) (src/Game.sol#237-242)
+Game.getRemainingTime() (src/Game.sol#343-352) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp >= endTime (src/Game.sol#348)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp
+INFO:Detectors:
+Version constraint ^0.8.20 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+	- VerbatimInvalidDeduplication
+	- FullInlinerNonExpressionSplitArgumentEvaluationOrder
+	- MissingSideEffectsOnSelectorAccess.
+It is used by:
+	- ^0.8.20 (lib/openzeppelin-contracts/contracts/access/Ownable.sol#4)
+	- ^0.8.20 (lib/openzeppelin-contracts/contracts/utils/Context.sol#4)
+	- ^0.8.20 (src/Game.sol#2)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity
+INFO:Detectors:
+Low level call in Game.withdrawWinnings() (src/Game.sol#256-266):
+	- (success,None) = address(msg.sender).call{value: amount}() (src/Game.sol#260)
+Low level call in Game.withdrawPlatformFees() (src/Game.sol#327-337):
+	- (success,None) = address(owner()).call{value: amount}() (src/Game.sol#333)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls
+INFO:Detectors:
+Parameter Game.updateGracePeriod(uint256)._newGracePeriod (src/Game.sol#289) is not in mixedCase
+Parameter Game.updateClaimFeeParameters(uint256,uint256)._newInitialClaimFee (src/Game.sol#301) is not in mixedCase
+Parameter Game.updateClaimFeeParameters(uint256,uint256)._newFeeIncreasePercentage (src/Game.sol#302) is not in mixedCase
+Parameter Game.updatePlatformFeePercentage(uint256)._newPlatformFeePercentage (src/Game.sol#314) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions
+INFO:Detectors:
+Game.initialGracePeriod (src/Game.sol#22) should be immutable 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-immutable
+INFO:Slither:. analyzed (3 contracts with 100 detectors), 11 result(s) found

@@ -1,0 +1,75 @@
+.hero-wrapper {
+  position: absolute;
+  inset-block: 120px;
+  inset-inline: 12px;
+  margin: 0 auto;
+  z-index: -999;
+}
+
+.hero-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin-inline: auto;
+  z-index: -999;
+}
+
+.anim-position {
+  position: absolute;
+  transform: translateY(var(--translateY, 0)) rotate(var(--rotate, 0deg))
+    scaleX(var(--scaleX, 1));
+  display: none;
+}
+
+.anim-position:nth-child(1) {
+  top: 50%;
+  left: 0;
+  --rotate: 135deg;
+  --translateY: -155%;
+}
+.anim-position:nth-child(2) {
+  top: 50%;
+  left: 0;
+  --translateY: 155%;
+  --rotate: 45deg;
+}
+.anim-position:nth-child(3) {
+  top: 50%;
+  right: 0;
+  --translateY: -155%;
+  --rotate: 45deg;
+  --scaleX: -1;
+}
+.anim-position:nth-child(4) {
+  top: 50%;
+  right: 0;
+  --translateY: 155%;
+  --rotate: 135deg;
+  --scaleX: -1;
+}
+
+@media (min-width: 768px) {
+  .anim-position {
+    width: 122px;
+    display: block;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-wrapper {
+    inset-inline: 32px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero-wrapper {
+    inset-inline: 64px;
+  }
+  .hero-content {
+    max-width: 1580px;
+  }
+
+  .anim-position {
+    width: 200px;
+  }
+}

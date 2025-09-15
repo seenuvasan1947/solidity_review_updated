@@ -1,0 +1,34 @@
+{
+  "extends": [
+    "stylelint-config-standard"
+  ],
+  "customSyntax": "postcss-styled-syntax",
+  "rules": {
+    "selector-type-case": ["lower", { "ignoreTypes": ["/^\\$\\w+/"] }],
+    "selector-type-no-unknown": [true, { "ignoreTypes": ["/-styled-mixin/", "/^\\$\\w+/"] }],
+    "value-keyword-case": ["lower", { "ignoreKeywords": ["dummyValue", "currentColor"] }],
+    "declaration-empty-line-before": null,
+    "property-no-unknown": [
+      true,
+      {
+        "ignoreProperties": ["flex-gap", "webkit-appearance"]
+      }
+    ],
+    "color-function-notation": "legacy",
+    "alpha-value-notation": "number",
+    "custom-property-pattern": null,
+    "rule-empty-line-before": null,
+    "keyframes-name-pattern": null,
+    "keyframe-block-no-duplicate-selectors": null,
+    "no-empty-source": null,
+    "media-query-no-invalid": null,
+    "at-rule-empty-line-before": null,
+    "declaration-block-no-redundant-longhand-properties": null,
+    "media-feature-range-notation": null,
+    "declaration-property-value-no-unknown": [true, {
+      "ignoreProperties": {
+        "-moz-background-clip": ["text"]
+      }
+    }]
+  }
+}

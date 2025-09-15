@@ -1,0 +1,51 @@
+
+SolidityScan result for code-sample/src/utils/Math.sol:
+#	NAME	SEVERITY	CONFIDENCE	DESCRIPTION	REMEDIATION
+1.	OUTDATED COMPILER VERSION	low	2	
+Using an outdated compiler version can be problematic especially if there are publicly disclosed bugs and issues that affect the current compiler version.
+
+Not Available
+2.	MISSING UNDERSCORE IN NAMING VARIABLES	informational	0	
+Solidity style guide suggests using underscores as the prefix for non-external functions and state variables (private or internal) but the contract was not found to be following the same.
+
+Not Available
+3.	IN-LINE ASSEMBLY DETECTED	informational	2	
+Inline assembly is a way to access the Ethereum Virtual Machine at a low level. This bypasses several important safety features and checks of Solidity. This should only be used for tasks that need it and if there is confidence in using it.
+
+
+Multiple vulnerabilities have been detected previously when the assembly is not properly used within the Solidity code; therefore, caution should be exercised while using them.
+
+Not Available
+4.	USE SCIENTIFIC NOTATION	informational	0	
+Although the Solidity compiler can optimize exponentiation, it is recommended to prioritize idioms not reliant on compiler optimization. Utilizing scientific notation enhances code clarity, making it more self-explanatory and aligning with best practices in Solidity development.
+
+Not Available
+5.	INTERNAL FUNCTIONS NEVER USED	gas	0	
+The contract declared internal functions but was not using them in any of the functions or contracts.
+Since internal functions can only be called from inside the contracts, it makes no sense to have them if they are not used. This uses up gas and causes issues for auditors when understanding the contract logic.
+
+Lines: ["15:27","8:10","31:33","39:41","62:81"]	
+Having dead code in the contracts uses up unnecessary gas and increases the complexity of the overall smart contract.
+It is recommended to remove the internal functions from the contracts if they are never used.
+
+6.	PUBLIC CONSTANTS CAN BE PRIVATE	gas	2	
+Public constant variables cost more gas because the EVM automatically creates getter functions for them and adds entries to the method ID table. The values can be read from the source code instead.
+
+Lines: ["37:37"]	
+If reading the values for the constants are not necessary, consider changing the public visibility to private.
+
+7.	FUNCTIONS CAN BE IN-LINED	gas	0	
+The internal function was called only once throughout the contract. Internal functions cost more gas due to additional JUMP instructions and stack operations.
+
+Lines: ["43:60"]	
+Creating a function for a single call is not necessary if it can be in-lined. It is recommended to implement the logic using in-line codes to save gas.
+
+Scan Summary:
+
+  Lines Analyzed: 69
+
+  Scan Score: 95.29
+
+  Issue Distribution: { "critical": 0, "gas": 7, "high": 0, "informational": 10, "low": 1, "medium": 0 }
+
+For more details, go to SolidityScan.

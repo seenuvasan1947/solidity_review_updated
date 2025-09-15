@@ -1,0 +1,83 @@
+SolidityScan result for code-sample/src/utils/Uint32Array.sol:
+#	NAME	SEVERITY	CONFIDENCE	DESCRIPTION	REMEDIATION
+1.	UNCHECKED ARRAY LENGTH	medium	2	
+Ethereum is a very resource-constrained environment. Prices per computational step are orders of magnitude higher than with centralized providers. Moreover, Ethereum miners impose a limit on the total number of Gas consumed in a block. If array.length is large enough, the function exceeds the block gas limit, and transactions calling it will never be confirmed.
+
+for (uint256 i = 0; i < array.length ; i++) { cosltyFunc(); }
+
+
+This becomes a security issue if an external actor influences array.length.
+
+E.g., if an array enumerates all registered addresses, an adversary can register many addresses, causing the problem described above.
+
+Not Available
+2.	MISSING EVENTS	low	1	
+Events are inheritable members of contracts. When you call them, they cause the arguments to be stored in the transaction’s log — a special data structure in the blockchain.
+These logs are associated with the address of the contract which can then be used by developers and auditors to keep track of the transactions.
+The contract was found to be missing these events on the function which would make it difficult or impossible to track these transactions off-chain.
+
+Not Available
+3.	OUTDATED COMPILER VERSION	low	2	
+Using an outdated compiler version can be problematic especially if there are publicly disclosed bugs and issues that affect the current compiler version.
+
+Not Available
+4.	RETURN INSIDE LOOP	informational	2	
+The function has defined a return keyword inside a loop. This represents an error because the loop will simply return on it’s first iteration.
+
+Not Available
+5.	MISSING UNDERSCORE IN NAMING VARIABLES	informational	0	
+Solidity style guide suggests using underscores as the prefix for non-external functions and state variables (private or internal) but the contract was not found to be following the same.
+
+Not Available
+6.	AVOID ARITHMETIC DIRECTLY WITHIN ARRAY INDICES	informational	1	
+Using arithmetic directly within array indices (array[i + 2]) can introduce risks such as accessing invalid positions, leading to runtime errors. It also reduces code clarity, making it harder to debug and maintain. Instead, compute the index beforehand and store it in a variable for better readability and reliability.
+
+Not Available
+7.	INTERNAL FUNCTIONS NEVER USED	gas	0	
+The contract declared internal functions but was not using them in any of the functions or contracts.
+Since internal functions can only be called from inside the contracts, it makes no sense to have them if they are not used. This uses up gas and causes issues for auditors when understanding the contract logic.
+
+Lines: ["39:47","16:32","54:58"]	
+Having dead code in the contracts uses up unnecessary gas and increases the complexity of the overall smart contract.
+It is recommended to remove the internal functions from the contracts if they are never used.
+
+8.	CHEAPER INEQUALITIES IN IF()	gas	1	
+The contract was found to be doing comparisons using inequalities inside the if statement.
+When inside the if statements, non-strict inequalities (>=, <=) are usually cheaper than the strict equalities (>, <).
+
+Lines: ["23:23"]	
+It is recommended to go through the code logic, and, if possible, modify the strict inequalities with the non-strict ones to save ~3 gas as long as the logic of the code is not affected.
+
+9.	CHEAPER CONDITIONAL OPERATORS	gas	0	
+During compilation, x != 0 is cheaper than x > 0 for unsigned integers in solidity inside conditional statements.
+
+Lines: ["23:23"]	
+Consider using x != 0 in place of x > 0 in uint wherever possible.
+
+10.	GAS OPTIMIZATION IN INCREMENTS	gas	0	
+++i costs less gas compared to i++ or i += 1 for unsigned integers. In i++, the compiler has to create a temporary variable to store the initial value. This is not the case with ++i in which the value is directly incremented and returned, thus, making it a cheaper alternative.
+
+Lines: ["44:44","55:55"]	
+Consider changing the post-increments (i++) to pre-increments (++i) as long as the value is not used in any calculations or inside returns. Make sure that the logic of the code is not changed.
+
+11.	ARRAY LENGTH CACHING	gas	2	
+During each iteration of the loop, reading the length of the array uses more gas than is necessary. In the most favorable scenario, in which the length is read from a memory variable, storing the array length in the stack can save about 3 gas per iteration. In the least favorable scenario, in which external calls are made during each iteration, the amount of gas wasted can be significant.
+
+Lines: ["55:55"]	
+Consider storing the array length of the variable before the loop and use the stored length instead of fetching it in each iteration.
+
+12.	UNNECESSARY CHECKED ARITHMETIC IN LOOP	gas	0	
+Increments inside a loop could never overflow due to the fact that the transaction will run out of gas before the variable reaches its limits. Therefore, it makes no sense to have checked arithmetic in such a place.
+
+Lines: ["44:44","55:55"]	
+It is recommended to have the increment value inside the unchecked block to save some gas.
+
+Scan Summary:
+
+  Lines Analyzed: 48
+
+  Scan Score: 90.81
+
+  Issue Distribution: { "critical": 0, "gas": 10, "high": 0, "informational": 7, "low": 3, "medium": 1 }
+
+For more details, go to SolidityScan.

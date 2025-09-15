@@ -1,0 +1,282 @@
+SolidityScan result for code-sample/src/base/Cellar.sol:
+#	NAME	SEVERITY	CONFIDENCE	DESCRIPTION	REMEDIATION
+1.	INCORRECT ACCESS CONTROL	critical	1	
+Access control plays an important role in the segregation of privileges in smart contracts and other applications. If this is misconfigured or not properly validated on sensitive functions, it may lead to loss of funds, tokens and in some cases compromise of the smart contract.
+
+The contract is importing an access control library but the function is missing the modifier.
+
+Not Available
+2.	ERC4626 INFLATION ATTACK	high	0	
+The ERC4626 implementation is found to be vulnerable to inflation or donation attacks, particularly when the vault is not seeded with a sufficient amount of assets initially. This vulnerability arises from how shares are calculated during the first deposit. When the vault is empty and totalSupply == 0, the first depositor receives shares in a 1:1 ratio to their deposited assets. An attacker can exploit this by making a small initial deposit to receive a disproportionately large number of shares. As more users deposit assets, the value of these shares inflates without the attacker having made a significant contribution, allowing them to extract more assets than they should have been entitled to.
+
+Not Available
+3.	REENTRANCY	high	2	
+In a Re-entrancy attack, a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways, especially in cases where the function is updating state variables after the external calls.
+This may lead to loss of funds, improper value updates, token loss, etc.
+
+Not Available
+4.	UNCHECKED ARRAY LENGTH	medium	2	
+Ethereum is a very resource-constrained environment. Prices per computational step are orders of magnitude higher than with centralized providers. Moreover, Ethereum miners impose a limit on the total number of Gas consumed in a block. If array.length is large enough, the function exceeds the block gas limit, and transactions calling it will never be confirmed.
+
+for (uint256 i = 0; i < array.length ; i++) { cosltyFunc(); }
+
+
+This becomes a security issue if an external actor influences array.length.
+
+E.g., if an array enumerates all registered addresses, an adversary can register many addresses, causing the problem described above.
+
+Not Available
+5.	OPENZEPPELIN ERC4626 INFLATION ATTACK	medium	0	
+The OpenZeppelin ERC4626 contract is found to contain a mitigation mechanism for inflation attacks, specifically designed to reduce the profitability of such attacks but not entirely eliminate the risk. The vulnerability stems from the possibility of an attacker exploiting low liquidity or initial deposits to inflate the share-to-asset ratio, allowing them to extract a disproportionate number of shares for minimal asset input. The introduction of "virtual assets and shares" in the implementation helps to reduce the severity of this attack by adjusting conversion rates, making it economically unfeasible for attackers to profit from inflation exploits. However, this mechanism is not foolproof, and without a significant initial deposit, there remains a risk that attackers could manipulate share prices during low-liquidity periods.
+
+Not Available
+6.	PRECISION LOSS DURING DIVISION BY LARGE NUMBERS	medium	2	
+In Solidity, when dividing large numbers, precision loss can occur due to limitations in the Ethereum Virtual Machine (EVM). Solidity lacks native support for decimal or fractional numbers, leading to truncation of division results to integers. This can result in inaccuracies or unexpected behaviors, especially when the numerator is not significantly larger than the denominator.
+
+Not Available
+7.	MISSING EVENTS	low	1	
+Events are inheritable members of contracts. When you call them, they cause the arguments to be stored in the transaction’s log — a special data structure in the blockchain.
+These logs are associated with the address of the contract which can then be used by developers and auditors to keep track of the transactions.
+The contract was found to be missing these events on the function which would make it difficult or impossible to track these transactions off-chain.
+
+Not Available
+8.	OUTDATED COMPILER VERSION	low	2	
+Using an outdated compiler version can be problematic especially if there are publicly disclosed bugs and issues that affect the current compiler version.
+
+Not Available
+9.	MISSING ZERO ADDRESS VALIDATION	low	2	
+The contract is found to lack proper validation for zero address inputs in critical functions, particularly where an 'address' input is expected, like during initialization or setting ownership. Failure to validate zero addresses can result in unwanted contract states, such as having critical roles or operations reference the zero address (0x0), which is universally considered an invalid and non-operational address within Ethereum, potentially leading to the loss of assets or control over the contract's functionality.
+
+Not Available
+10.	USE OF _MINT()	low	2	
+The contract was using _mint function to mint new tokens. OpenZeppelin also defines a function called _safeMint that prevents someone from minting ERC721 to a contract that does not support ERC721 transfers.
+
+The _safeMint flavor of minting causes the recipient of the tokens, if it is a smart contract, to react upon receipt of the tokens.
+
+Not Available
+11.	LEGACY CODE GENERATION ISSUE WITH .SELECTOR ACCESS ON EXPRESSIONS WITH SIDE EFFECTS	low	2	
+A bug in the legacy code generation pipeline of the Solidity compiler was identified on June 26, 2023. This bug affected the evaluation of expressions with side effects when accessing the .selector member. As a result, side effects of such expressions were not executed, potentially leading to incorrect contract behavior. This issue has been present since version 0.6.2 of the compiler but has not been exploited or reported externally. The new IR-based code generator does not have this issue and evaluates expressions correctly.
+
+Not Available
+12.	NONREENTRANT MODIFIER PLACEMENT	low	0	
+When using the nonReentrant modifier, it is crucial to place it before all other modifiers in a function. Placing it first ensures that all other modifiers are unable to bypass the reentrancy protection.
+
+Not Available
+13.	IF-STATEMENT REFACTORING	informational	0	
+In Solidity, we aim to write clear, efficient code that is both easy to understand and maintain. If statements can be converted to ternary operators. While using ternary operators instead of if/else statements can sometimes lead to more concise code, it's crucial to understand the trade-offs involved.
+
+Not Available
+14.	REVERT STATEMENTS WITHIN EXTERNAL AND PUBLIC FUNCTIONS CAN BE USED TO PERFORM DOS ATTACKS	informational	0	
+In public and external functions, improper use of revert can be exploited for Denial of Service (DoS) attacks. An attacker can intentionally trigger these 'revert' conditions, causing legitimate transactions to consistently fail. For example, if a function relies on specific conditions from user input or contract state, an attacker could manipulate these to continually force reverts, blocking the function's execution.
+
+Not Available
+15.	MISSING UNDERSCORE IN NAMING VARIABLES	informational	0	
+Solidity style guide suggests using underscores as the prefix for non-external functions and state variables (private or internal) but the contract was not found to be following the same.
+
+Not Available
+16.	USE SCIENTIFIC NOTATION	informational	0	
+Although the Solidity compiler can optimize exponentiation, it is recommended to prioritize idioms not reliant on compiler optimization. Utilizing scientific notation enhances code clarity, making it more self-explanatory and aligning with best practices in Solidity development.
+
+Not Available
+17.	CONSIDER USING UINT48 FOR TIME-RELATED VARIABLES	informational	2	
+The contract defines time-related variables as uint256. Since Unix timestamps can be adequately represented using uint48, utilizing uint256 for these variables results in unnecessary gas consumption due to larger storage requirements.
+
+Not Available
+18.	VARIABLES SHOULD BE IMMUTABLE	informational	0	
+Constants and Immutables should be used in their appropriate contexts.
+constant should only be used for literal values written into the code. immutable variables should be used for expressions, or values calculated in, or passed into the constructor.
+
+Not Available
+19.	USE OF DECIMALS	informational	2	
+In some of the decentralized exchanges, it’s not always safe to assume that a token will return 18 decimals when calling the token.decimals() function. This could cause miscalculations in amount.
+
+Not Available
+20.	MISSING INDEXED KEYWORDS IN EVENTS	informational	2	
+Events are essential for tracking off-chain data and when the event paraemters are indexed they can be used as filter options which will help getting only the specific data instead of all the logs.
+
+Not Available
+21.	BLOCK VALUES AS A PROXY FOR TIME	informational	1	
+Contracts often need access to time values to perform certain types of functionality. Values such as block.timestamp and block.number can be used to determine the current time or the time delta. However, they are not recommended for most use cases.
+
+
+For block.number, as Ethereum block times are generally around 14 seconds, the delta between blocks can be predicted. The block times, on the other hand, do not remain constant and are subject to change for a number of reasons, e.g., fork reorganizations and the difficulty bomb.
+
+
+Due to variable block times, block.number should not be relied on for precise calculations of time.
+
+Not Available
+22.	AVOID ARITHMETIC DIRECTLY WITHIN ARRAY INDICES	informational	1	
+Using arithmetic directly within array indices (array[i + 2]) can introduce risks such as accessing invalid positions, leading to runtime errors. It also reduces code clarity, making it harder to debug and maintain. Instead, compute the index beforehand and store it in a variable for better readability and reliability.
+
+Not Available
+23.	HARD-CODED ADDRESS DETECTED	informational	0	
+The contract contains an unknown hard-coded address. This address might be used for some malicious activity. Please check the hard-coded address and its usage.
+These hard-coded addresses may be used everywhere throughout the code to define states and interact with the functions and external calls.
+Therefore, it is extremely crucial to ensure the correctness of these token contracts as they define various important aspects of the protocol operation.
+A misconfigured address mapping could lead to the potential loss of user funds or compromise of the contract owner depending on the function logic.
+
+Not Available
+24.	CHEAPER CONDITIONAL OPERATORS	gas	0	
+During compilation, x != 0 is cheaper than x > 0 for unsigned integers in solidity inside conditional statements.
+
+Lines: ["356:356","1012:1012"]	
+Consider using x != 0 in place of x > 0 in uint wherever possible.
+
+25.	PUBLIC CONSTANTS CAN BE PRIVATE	gas	2	
+Public constant variables cost more gas because the EVM automatically creates getter functions for them and adds entries to the method ID table. The values can be read from the source code instead.
+
+Lines: ["217:217","475:475","480:480","595:595","600:600","722:722","727:727","1271:1271"]	
+If reading the values for the constants are not necessary, consider changing the public visibility to private.
+
+26.	FUNCTIONS CAN BE IN-LINED	gas	0	
+The internal function was called only once throughout the contract. Internal functions cost more gas due to additional JUMP instructions and stack operations.
+
+Lines: ["792:801","807:810","815:819","960:1013","1437:1447","1455:1466"]	
+Creating a function for a single call is not necessary if it can be in-lined. It is recommended to implement the logic using in-line codes to save gas.
+
+27.	AVOID ZERO-TO-ONE STORAGE WRITES	gas	2	
+Writing a storage variable from zero to a non-zero value costs 22,100 gas (20,000 for the write and 2,100 for cold access), making it one of the most expensive operations. This is why patterns like OpenZeppelin’s ReentrancyGuard use 1 and 2 instead of 0 and 1—to avoid the high cost of zero-to-non-zero writes. Non-zero to non-zero updates cost only 5,000 gas.
+
+Lines: ["235:235","747:747","1287:1287"]	
+To mitigate this gas inefficiency, consider initializing storage variables to non-zero values during contract deployment if possible. Alternatively, design contract logic to minimize the number of times storage variables are set from zero to non-zero values. This can be achieved by setting default non-zero values where applicable or by batching storage updates to reduce the frequency of costly initializations.
+
+28.	STORAGE VARIABLE CACHING IN MEMORY	gas	0	
+The contract is using the state variable multiple times in the function.
+
+SLOADs are expensive (100 gas after the 1st one) compared to MLOAD/MSTORE (3 gas each).
+
+Lines: ["310:344","310:344","310:344","393:411","393:411","960:1013","960:1013","960:1013","1022:1053","1022:1053","1022:1053","1282:1290","1321:1356","1378:1406","1437:1447","1455:1466","1472:1480","1488:1491","1497:1500","1505:1510","1512:1533","1512:1533"]	
+Storage variables read multiple times inside a function should instead be cached in the memory the first time (costing 1 SLOAD) and then read from this cache to avoid multiple SLOADs.
+
+29.	GAS OPTIMIZATION IN INCREMENTS	gas	0	
+++i costs less gas compared to i++ or i += 1 for unsigned integers. In i++, the compiler has to create a temporary variable to store the initial value. This is not the case with ++i in which the value is directly incremented and returned, thus, making it a cheaper alternative.
+
+Lines: ["32:32","1342:1342","1395:1395"]	
+Consider changing the post-increments (i++) to pre-increments (++i) as long as the value is not used in any calculations or inside returns. Make sure that the logic of the code is not changed.
+
+30.	SPLITTING REVERT STATEMENTS	gas	0	
+The contract is using multiple conditions in a single if statement followed by a revert. This costs some extra gas.
+
+Lines: ["1350:1352"]	
+It is recommended to split the conditions into multiple if statements such that there’s only one condition in each of them.
+
+31.	USING BITMAPS INSTEAD OF BOOLEANS FOR GAS OPTIMIZATION	gas	2	
+In Solidity, each bool variable consumes 1 byte of storage, but an Ethereum storage slot is 32 bytes (256 bits). This means storing multiple boolean values separately leads to inefficient gas usage. A more optimized approach is to use bitmaps, which pack multiple boolean values into a single storage slot, significantly reducing gas costs.
+
+Lines: ["19:19"]	
+To optimize gas consumption, use a bitmap instead of storing multiple bool variables separately. If boolean values must be stored individually, consider using structs with tightly packed data to reduce storage inefficiency and lower gas costs.
+
+32.	CHEAPER INEQUALITIES IN IF()	gas	1	
+The contract was found to be doing comparisons using inequalities inside the if statement.
+When inside the if statements, non-strict inequalities (>=, <=) are usually cheaper than the strict equalities (>, <).
+
+Lines: ["356:356","487:487","744:744","800:800","1012:1012","1283:1283","1350:1350"]	
+It is recommended to go through the code logic, and, if possible, modify the strict inequalities with the non-strict ones to save ~3 gas as long as the logic of the code is not affected.
+
+33.	REVERTING FUNCTIONS CAN BE PAYABLE	gas	0	
+If a function modifier such as onlyOwner is used, the function will revert if a normal user tries to pay the function. Marking the function as payable will lower the gas cost for legitimate callers because the compiler will not include checks for whether a payment was provided.
+
+Lines: ["71:88","227:229","251:253","268:271","276:281","286:289","297:305","351:359","364:366","393:411","486:491","497:501","558:560","573:578","583:588","743:749","1282:1290","1321:1356"]	
+In the above code, the onlyOwner modifier ensures that only the contract owner can execute the ${function_name}. If a normal user attempts to call this function, the transaction will automatically revert. By marking the ${function_name} as payable, we can optimize gas costs for legitimate callers since the compiler will skip the checks for payment.
+
+34.	EMIT USED IN LOOP	gas	0	
+In Solidity, when a code emits an event inside of a loop, internally it performs a LOG operation N times, where N represents the number of iterations in the loop. This can lead to inflated gas costs and potentially impact the efficiency of the code.
+
+Lines: ["1342:1345","1344:1344"]	
+To optimize your code and reduce gas consumption, it is recommended to refactor the code to emit the event only once at the end of the loop.
+
+35.	ASSIGNING TO STRUCTS CAN BE MORE EFFICIENT	gas	0	
+The contract is found to contain a struct with multiple variables defined in it. When a struct is assigned in a single operation, Solidity may perform costly storage operations, which can be inefficient. This often results in increased gas costs due to multiple SLOAD and SSTORE operations happening at once
+
+Lines: ["465:470"]	
+Instead of assigning all struct elements at once, initialize the struct as empty and assign each element individually. This can help in reducing gas costs by minimizing potentially expensive storage operations in a single transaction.
+
+36.	UNNECESSARY DEFAULT VALUE INITIALIZATION	gas	2	
+The contract was found to be initializing the value of the variable to it’s default value.
+This is redundant and not required.
+
+Lines: ["468:468","469:469"]	
+It’s not recommended to initialize the data types to their default values unless there’s a use-case because it’s unnecessary and costs around ~3 gas.
+
+37.	CACHE ADDRESS(THIS) WHEN USED MORE THAN ONCE	gas	0	
+The repeated usage of address(this) within the contract could result in increased gas costs due to multiple executions of the same computation, potentially impacting efficiency and overall transaction expenses.
+
+Lines: ["32:32","541:541","551:551","825:825","1385:1385"]	
+Optimize gas usage by caching the value of address(this) and reusing it throughout the contract, reducing redundant computations and thereby enhancing efficiency.
+
+38.	VARIABLES DECLARED BUT NEVER USED	gas	0	
+The contract has declared a variable but it is not used anywhere in the code. This represents dead code or missing logic.
+
+Unused variables increase the contract's size and complexity, potentially leading to higher gas costs and a larger attack surface
+
+Lines: ["475:475"]	
+To remediate this vulnerability, developers should perform a code review and remove any variables that are declared but never used.
+
+39.	UNUSED IMPORTS	gas	2	
+Solidity is a Gas-constrained language. Having unused code or import statements incurs extra gas usage when deploying the contract.
+
+Lines: ["7:7"]	
+It is recommended to remove the import statement if it’s not supposed to be used.
+
+40.	DEFAULT INT VALUES ARE MANUALLY RESET	gas	0	
+The contract is found to inefficiently reset integer variables to their default value of zero using manual assignment. In Solidity, manually setting a variable to its default value does not free up storage space, leading to unnecessary gas consumption. Instead, using the .delete keyword can achieve the same result while also freeing up storage space on the Ethereum blockchain, resulting in gas cost savings.
+
+Lines: ["269:269","287:287","381:381","585:585","999:999","1355:1355","1525:1525"]	
+To optimize gas usage, replace manual resets of integer variables with the .delete keyword. This not only sets the variable to its default value but also frees up storage space, leading to reduced gas costs.
+
+41.	SMALLER DATA TYPES COST MORE	gas	0	
+Usage of smaller integer types such as uint8, uint16, int8, or int16 in arithmetic operations incur additional gas costs compared to the default uint and int types, which are typically uint256 and int256 respectively.
+
+Lines: ["1402:1402","1529:1529","1530:1530","1531:1531"]	
+Replace occurrences of smaller integer types (uint8, uint16, int8, int16) with the default integer types (uint or int). This can be achieved by simply using uint or int, which are automatically mapped to uint256 and int256 respectively in Solidity version 0.8.0 and above.
+
+42.	CONSTANT STATE VARIABLES	gas	2	
+The contract has defined state variables whose values are never modified throughout the contract.
+The variables whose values never change should be marked as constant to save gas.
+
+Lines: ["464:470"]	
+Make sure that the values stored in the variables flagged above do not change throughout the contract. If this is the case, then consider setting these variables as constant.
+
+43.	DEFINE CONSTRUCTOR AS PAYABLE	gas	0	
+Developers can save around 10 opcodes and some gas if the constructors are defined as payable.
+
+However, it should be noted that it comes with risks because payable constructors can accept ETH during deployment.
+
+Lines: ["626:669"]	
+It is suggested to mark the constructors as payable to save some gas. Make sure it does not lead to any adverse effects in case an upgrade pattern is involved.
+
+44.	UNNECESSARY CHECKED ARITHMETIC IN LOOP	gas	0	
+Increments inside a loop could never overflow due to the fact that the transaction will run out of gas before the variable reaches its limits. Therefore, it makes no sense to have checked arithmetic in such a place.
+
+Lines: ["32:32","966:966","1338:1338","1391:1391","1342:1342","1395:1395","1401:1401","1507:1507","1522:1522","1528:1528"]	
+It is recommended to have the increment value inside the unchecked block to save some gas.
+
+45.	AVOID RE-STORING VALUES	gas	0	
+The function is found to be allowing re-storing the value in the contract's state variable even when the old value is equal to the new value. This practice results in unnecessary gas consumption due to the Gsreset operation (2900 gas), which could be avoided. If the old value and the new value are the same, not updating the storage would avoid this cost and could instead incur a Gcoldsload (2100 gas) or a Gwarmaccess (100 gas), potentially saving gas.
+
+Lines: ["231:236","486:491","497:501","558:560","743:749","1282:1290"]	
+To optimize gas usage, add a check to compare the old value with the new value before updating the storage. Only perform the storage update if the new value is different from the old value. This approach will prevent unnecessary storage writes and reduce gas consumption.
+
+46.	OPTIMIZING ADDRESS ID MAPPING	gas	0	
+Combining multiple address/ID mappings into a single mapping using a struct enhances storage efficiency, simplifies code, and reduces gas costs, resulting in a more streamlined and cost-effective smart contract design.
+
+It saves storage slot for the mapping and depending on the circumstances and sizes of types, it can avoid a Gsset (20000 gas) per mapping combined. Reads and subsequent writes can also be cheaper when a function requires both values and they fit in the same storage slot.
+
+Lines: ["246:246","737:737"]	
+It is suggested to modify the code so that multiple mappings using the address->id parameter are combined into a struct.
+
+47.	ARRAY LENGTH CACHING	gas	2	
+During each iteration of the loop, reading the length of the array uses more gas than is necessary. In the most favorable scenario, in which the length is read from a memory variable, storing the array length in the stack can save about 3 gas per iteration. In the least favorable scenario, in which external calls are made during each iteration, the amount of gas wasted can be significant.
+
+Lines: ["32:32","1338:1346","1342:1345","1391:1398","1395:1397","1401:1403","1507:1509","1528:1532"]	
+Consider storing the array length of the variable before the loop and use the stored length instead of fetching it in each iteration.
+
+Scan Summary:
+
+  Lines Analyzed: 1311
+
+  Scan Score: 62.03
+
+  Issue Distribution: { "critical": 2, "gas": 111, "high": 2, "informational": 51, "low": 18, "medium": 7 }
+
+For more details, go to SolidityScan.

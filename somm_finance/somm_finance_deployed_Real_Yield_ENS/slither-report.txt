@@ -1,0 +1,679 @@
+osboxes@osboxes:~/block_chain/solidity_review/somm_finance/somm_finance_deployed_Real_Yield_ENS$ slither .
+'forge clean' running (wd: /home/osboxes/block_chain/solidity_review/somm_finance/somm_finance_deployed_Real_Yield_ENS)
+'forge config --json' running
+'forge build --build-info --skip */test/** */script/** --force' running (wd: /home/osboxes/block_chain/solidity_review/somm_finance/somm_finance_deployed_Real_Yield_ENS)
+INFO:Detectors:
+Multicall.multicall(bytes[]) (src/base/Multicall.sol#13-30) has delegatecall inside a loop in a payable function: (success,result) = address(this).delegatecall(data[i]) (src/base/Multicall.sol#16)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#payable-functions-using-delegatecall-inside-a-loop
+INFO:Detectors:
+CellarInitializableV2_2 (src/base/CellarInitializableV2_2.sol#7-83) is an upgradeable contract that does not protect its initialize functions: CellarInitializableV2_2.initialize(bytes) (src/base/CellarInitializableV2_2.sol#35-82). Anyone can delete the contract with: Cellar.multicall(bytes[]) (src/base/Cellar.sol#31-33)Cellar.deposit(uint256,address) (src/base/Cellar.sol#840-848)Cellar.mint(uint256,address) (src/base/Cellar.sol#856-864)Cellar.withdraw(uint256,address,address) (src/base/Cellar.sol#897-909)Cellar.redeem(uint256,address,address) (src/base/Cellar.sol#924-936)Cellar.callOnAdaptor(Cellar.AdaptorCall[]) (src/base/Cellar.sol#1321-1356)Cellar.executeOperation(address[],uint256[],uint256[],address,bytes) (src/base/Cellar.sol#1378-1406)Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unprotected-upgradeable-contract
+INFO:Detectors:
+PriceRouter._cubicRoot(uint256) (src/modules/price-router/PriceRouter.sol#995-1006) performs a multiplication on the result of a division:
+	- D = x / 1e18 (src/modules/price-router/PriceRouter.sol#996)
+	- D = (D * (2 * 1e18 + ((((x / D) * 1e18) / D) * 1e18) / D)) / (3 * 1e18) (src/modules/price-router/PriceRouter.sol#1000)
+PriceRouter._getPriceForCurveV2Derivative(ERC20,address,PriceRouter.PriceCache[8]) (src/modules/price-router/PriceRouter.sol#1012-1048) performs a multiplication on the result of a division:
+	- coefficient = (g ** 2 / 1e18) * a (src/modules/price-router/PriceRouter.sol#1040)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply
+INFO:Detectors:
+PriceRouter._cubicRoot(uint256) (src/modules/price-router/PriceRouter.sol#995-1006) contains a tautology or contradiction:
+	- i < 256 (src/modules/price-router/PriceRouter.sol#997)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#tautology-or-contradiction
+INFO:Detectors:
+PriceRouter.getPriceInUSD(ERC20).cache (src/modules/price-router/PriceRouter.sol#194) is a local variable never initialized
+PriceRouter._checkVirtualPriceBound(bytes).targetIndex (src/modules/price-router/PriceRouter.sol#722) is a local variable never initialized
+PriceRouter.getExchangeRate(ERC20,ERC20).cache (src/modules/price-router/PriceRouter.sol#261) is a local variable never initialized
+PriceRouter.getExchangeRates(ERC20[],ERC20).cache (src/modules/price-router/PriceRouter.sol#288) is a local variable never initialized
+PriceRouter.getValuesDelta(ERC20[],uint256[],ERC20[],uint256[],ERC20).cache (src/modules/price-router/PriceRouter.sol#227) is a local variable never initialized
+PriceRouter.addAsset(ERC20,PriceRouter.AssetSettings,bytes,uint256).cache (src/modules/price-router/PriceRouter.sol#141) is a local variable never initialized
+PriceRouter.getValue(ERC20,uint256,ERC20).cache (src/modules/price-router/PriceRouter.sol#210) is a local variable never initialized
+PriceRouter._getPriceInUSD(ERC20,PriceRouter.AssetSettings,PriceRouter.PriceCache[8]).price (src/modules/price-router/PriceRouter.sol#359) is a local variable never initialized
+Cellar.cachePriceRouter(bool,uint16).minAssets (src/base/Cellar.sol#72) is a local variable never initialized
+PriceRouter._checkVirtualPriceBound(bytes).maxDelta (src/modules/price-router/PriceRouter.sol#721) is a local variable never initialized
+PriceRouter._getValues(ERC20[],uint256[],ERC20,PriceRouter.PriceCache[8]).valueInQuote (src/modules/price-router/PriceRouter.sol#434) is a local variable never initialized
+Cellar._withdrawInOrder(uint256,address).pricingInfo (src/base/Cellar.sol#962) is a local variable never initialized
+PriceRouter.getValues(ERC20[],uint256[],ERC20).cache (src/modules/price-router/PriceRouter.sol#243) is a local variable never initialized
+Cellar.cachePriceRouter(bool,uint16).maxAssets (src/base/Cellar.sol#73) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables
+INFO:Detectors:
+Cellar.multicall(bytes[]) (src/base/Cellar.sol#31-33) ignores return value by address(this).functionDelegateCall(data[i]) (src/base/Cellar.sol#32)
+Cellar.callOnAdaptor(Cellar.AdaptorCall[]) (src/base/Cellar.sol#1321-1356) ignores return value by adaptor.functionDelegateCall(data[i].callData[j]) (src/base/Cellar.sol#1343)
+Cellar.executeOperation(address[],uint256[],uint256[],address,bytes) (src/base/Cellar.sol#1378-1406) ignores return value by adaptor.functionDelegateCall(data[i].callData[j]) (src/base/Cellar.sol#1396)
+Cellar._depositTo(uint32,uint256) (src/base/Cellar.sol#1437-1447) ignores return value by adaptor.functionDelegateCall(abi.encodeWithSelector(BaseAdaptor.deposit.selector,assets,getPositionData[position].adaptorData,getPositionData[position].configurationData)) (src/base/Cellar.sol#1439-1446)
+Cellar._withdrawFrom(uint32,uint256,address) (src/base/Cellar.sol#1455-1466) ignores return value by adaptor.functionDelegateCall(abi.encodeWithSelector(BaseAdaptor.withdraw.selector,assets,receiver,getPositionData[position].adaptorData,getPositionData[position].configurationData)) (src/base/Cellar.sol#1457-1465)
+PriceRouter._getPriceForChainlinkDerivative(ERC20,address,PriceRouter.PriceCache[8]) (src/modules/price-router/PriceRouter.sol#537-553) ignores return value by (None,_price,None,_timestamp,None) = aggregator.latestRoundData() (src/modules/price-router/PriceRouter.sol#544)
+PriceRouter._setupPriceForCurveDerivative(ERC20,address,bytes) (src/modules/price-router/PriceRouter.sol#880-912) ignores return value by pool.coins(coinsLength) (src/modules/price-router/PriceRouter.sol#885-889)
+PriceRouter._setupPriceForCurveV2Derivative(ERC20,address,bytes) (src/modules/price-router/PriceRouter.sol#957-987) ignores return value by pool.coins(coinsLength) (src/modules/price-router/PriceRouter.sol#962-966)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return
+INFO:Detectors:
+Cellar._checkIfSharesLocked(address).owner (src/base/Cellar.sol#755) shadows:
+	- Owned.owner (lib/solmate/src/auth/Owned.sol#17) (state variable)
+Cellar.beforeWithdraw(uint256,uint256,address,address).owner (src/base/Cellar.sol#815) shadows:
+	- Owned.owner (lib/solmate/src/auth/Owned.sol#17) (state variable)
+Cellar._exit(uint256,uint256,address,address).owner (src/base/Cellar.sol#866) shadows:
+	- Owned.owner (lib/solmate/src/auth/Owned.sol#17) (state variable)
+Cellar.withdraw(uint256,address,address).owner (src/base/Cellar.sol#900) shadows:
+	- Owned.owner (lib/solmate/src/auth/Owned.sol#17) (state variable)
+Cellar.redeem(uint256,address,address).owner (src/base/Cellar.sol#927) shadows:
+	- Owned.owner (lib/solmate/src/auth/Owned.sol#17) (state variable)
+Cellar._findMax(address,bool).owner (src/base/Cellar.sol#1144) shadows:
+	- Owned.owner (lib/solmate/src/auth/Owned.sol#17) (state variable)
+Cellar.maxWithdraw(address).owner (src/base/Cellar.sol#1170) shadows:
+	- Owned.owner (lib/solmate/src/auth/Owned.sol#17) (state variable)
+Cellar.maxRedeem(address).owner (src/base/Cellar.sol#1182) shadows:
+	- Owned.owner (lib/solmate/src/auth/Owned.sol#17) (state variable)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing
+INFO:Detectors:
+PriceRouter.setGasConstant(uint256) (src/modules/price-router/PriceRouter.sol#669-671) should emit an event for: 
+	- gasConstant = newConstant (src/modules/price-router/PriceRouter.sol#670) 
+PriceRouter.setMinDelta(uint256) (src/modules/price-router/PriceRouter.sol#682-684) should emit an event for: 
+	- minDelta = newMinDelta (src/modules/price-router/PriceRouter.sol#683) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic
+INFO:Detectors:
+Owned.transferOwnership(address).newOwner (lib/solmate/src/auth/Owned.sol#39) lacks a zero-check on :
+		- owner = newOwner (lib/solmate/src/auth/Owned.sol#40)
+CellarInitializableV2_2.initialize(bytes)._owner (src/base/CellarInitializableV2_2.sol#37) lacks a zero-check on :
+		- owner = _owner (src/base/CellarInitializableV2_2.sol#50)
+PriceRouter.setGasFeed(address).gasFeed (src/modules/price-router/PriceRouter.sol#655) lacks a zero-check on :
+		- ETH_FAST_GAS_FEED = gasFeed (src/modules/price-router/PriceRouter.sol#656)
+PriceRouter.setAutomationRegistry(address).newRegistry (src/modules/price-router/PriceRouter.sol#795) lacks a zero-check on :
+		- automationRegistry = newRegistry (src/modules/price-router/PriceRouter.sol#796)
+SwapRouter.swap(SwapRouter.Exchange,bytes,address,ERC20,ERC20).receiver (src/modules/swap-router/SwapRouter.sol#90) lacks a zero-check on :
+		- (success,result) = address(this).delegatecall(abi.encodeWithSelector(getExchangeSelector[exchange],swapData,receiver,assetIn,assetOut)) (src/modules/swap-router/SwapRouter.sol#95-97)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation
+INFO:Detectors:
+Registry.trustPosition(address,bytes) (src/Registry.sol#415-452) has external calls inside a loop: ! priceRouter.isSupported(assets[i]) (src/Registry.sol#446)
+Cellar._withdrawableFrom(uint32) (src/base/Cellar.sol#1472-1480) has external calls inside a loop: BaseAdaptor(getPositionData[position].adaptor).withdrawableFrom(getPositionData[position].adaptorData,getPositionData[position].configurationData) (src/base/Cellar.sol#1475-1479)
+	Calls stack containing the loop:
+		Cellar.cachePriceRouter(bool,uint16)
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._assetOf(uint32) (src/base/Cellar.sol#1497-1500) has external calls inside a loop: BaseAdaptor(adaptor).assetOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1499)
+	Calls stack containing the loop:
+		Cellar.cachePriceRouter(bool,uint16)
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._balanceOf(uint32) (src/base/Cellar.sol#1488-1491) has external calls inside a loop: BaseAdaptor(adaptor).balanceOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1490)
+	Calls stack containing the loop:
+		Cellar.cachePriceRouter(bool,uint16)
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._addPositionToCatalogue(uint32) (src/base/Cellar.sol#258-263) has external calls inside a loop: registry.revertIfPositionIsNotTrusted(positionId) (src/base/Cellar.sol#260)
+	Calls stack containing the loop:
+		Cellar.constructor(Registry,ERC20,string,string,bytes)
+Cellar._addPosition(uint32,uint32,bytes,bool) (src/base/Cellar.sol#310-344) has external calls inside a loop: (adaptor,isDebt,adaptorData) = registry.addPositionToCellar(positionId) (src/base/Cellar.sol#319)
+	Calls stack containing the loop:
+		Cellar.constructor(Registry,ERC20,string,string,bytes)
+Cellar._withdrawableFrom(uint32) (src/base/Cellar.sol#1472-1480) has external calls inside a loop: BaseAdaptor(getPositionData[position].adaptor).withdrawableFrom(getPositionData[position].adaptorData,getPositionData[position].configurationData) (src/base/Cellar.sol#1475-1479)
+	Calls stack containing the loop:
+		Cellar.deposit(uint256,address)
+		Cellar._accounting(bool)
+Cellar._assetOf(uint32) (src/base/Cellar.sol#1497-1500) has external calls inside a loop: BaseAdaptor(adaptor).assetOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1499)
+	Calls stack containing the loop:
+		Cellar.deposit(uint256,address)
+		Cellar._accounting(bool)
+Cellar._balanceOf(uint32) (src/base/Cellar.sol#1488-1491) has external calls inside a loop: BaseAdaptor(adaptor).balanceOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1490)
+	Calls stack containing the loop:
+		Cellar.deposit(uint256,address)
+		Cellar._accounting(bool)
+Cellar._withdrawableFrom(uint32) (src/base/Cellar.sol#1472-1480) has external calls inside a loop: BaseAdaptor(getPositionData[position].adaptor).withdrawableFrom(getPositionData[position].adaptorData,getPositionData[position].configurationData) (src/base/Cellar.sol#1475-1479)
+	Calls stack containing the loop:
+		Cellar.mint(uint256,address)
+		Cellar._accounting(bool)
+Cellar._assetOf(uint32) (src/base/Cellar.sol#1497-1500) has external calls inside a loop: BaseAdaptor(adaptor).assetOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1499)
+	Calls stack containing the loop:
+		Cellar.mint(uint256,address)
+		Cellar._accounting(bool)
+Cellar._balanceOf(uint32) (src/base/Cellar.sol#1488-1491) has external calls inside a loop: BaseAdaptor(adaptor).balanceOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1490)
+	Calls stack containing the loop:
+		Cellar.mint(uint256,address)
+		Cellar._accounting(bool)
+Cellar._withdrawableFrom(uint32) (src/base/Cellar.sol#1472-1480) has external calls inside a loop: BaseAdaptor(getPositionData[position].adaptor).withdrawableFrom(getPositionData[position].adaptorData,getPositionData[position].configurationData) (src/base/Cellar.sol#1475-1479)
+	Calls stack containing the loop:
+		Cellar.withdraw(uint256,address,address)
+		Cellar._accounting(bool)
+Cellar._assetOf(uint32) (src/base/Cellar.sol#1497-1500) has external calls inside a loop: BaseAdaptor(adaptor).assetOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1499)
+	Calls stack containing the loop:
+		Cellar.withdraw(uint256,address,address)
+		Cellar._accounting(bool)
+Cellar._balanceOf(uint32) (src/base/Cellar.sol#1488-1491) has external calls inside a loop: BaseAdaptor(adaptor).balanceOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1490)
+	Calls stack containing the loop:
+		Cellar.withdraw(uint256,address,address)
+		Cellar._accounting(bool)
+Cellar._withdrawInOrder(uint256,address) (src/base/Cellar.sol#960-1013) has external calls inside a loop: pricingInfo.priceBaseUSD = priceRouter.getPriceInUSD(positionAsset) (src/base/Cellar.sol#973)
+	Calls stack containing the loop:
+		Cellar.withdraw(uint256,address,address)
+		Cellar._exit(uint256,uint256,address,address)
+Cellar._withdrawInOrder(uint256,address) (src/base/Cellar.sol#960-1013) has external calls inside a loop: pricingInfo.oneBase = 10 ** positionAsset.decimals() (src/base/Cellar.sol#974)
+	Calls stack containing the loop:
+		Cellar.withdraw(uint256,address,address)
+		Cellar._exit(uint256,uint256,address,address)
+Cellar._withdrawableFrom(uint32) (src/base/Cellar.sol#1472-1480) has external calls inside a loop: BaseAdaptor(getPositionData[position].adaptor).withdrawableFrom(getPositionData[position].adaptorData,getPositionData[position].configurationData) (src/base/Cellar.sol#1475-1479)
+	Calls stack containing the loop:
+		Cellar.redeem(uint256,address,address)
+		Cellar._accounting(bool)
+Cellar._assetOf(uint32) (src/base/Cellar.sol#1497-1500) has external calls inside a loop: BaseAdaptor(adaptor).assetOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1499)
+	Calls stack containing the loop:
+		Cellar.redeem(uint256,address,address)
+		Cellar._accounting(bool)
+Cellar._balanceOf(uint32) (src/base/Cellar.sol#1488-1491) has external calls inside a loop: BaseAdaptor(adaptor).balanceOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1490)
+	Calls stack containing the loop:
+		Cellar.redeem(uint256,address,address)
+		Cellar._accounting(bool)
+Cellar._withdrawInOrder(uint256,address) (src/base/Cellar.sol#960-1013) has external calls inside a loop: pricingInfo.priceBaseUSD = priceRouter.getPriceInUSD(positionAsset) (src/base/Cellar.sol#973)
+	Calls stack containing the loop:
+		Cellar.redeem(uint256,address,address)
+		Cellar._exit(uint256,uint256,address,address)
+Cellar._withdrawInOrder(uint256,address) (src/base/Cellar.sol#960-1013) has external calls inside a loop: pricingInfo.oneBase = 10 ** positionAsset.decimals() (src/base/Cellar.sol#974)
+	Calls stack containing the loop:
+		Cellar.redeem(uint256,address,address)
+		Cellar._exit(uint256,uint256,address,address)
+Cellar._withdrawableFrom(uint32) (src/base/Cellar.sol#1472-1480) has external calls inside a loop: BaseAdaptor(getPositionData[position].adaptor).withdrawableFrom(getPositionData[position].adaptorData,getPositionData[position].configurationData) (src/base/Cellar.sol#1475-1479)
+	Calls stack containing the loop:
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._assetOf(uint32) (src/base/Cellar.sol#1497-1500) has external calls inside a loop: BaseAdaptor(adaptor).assetOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1499)
+	Calls stack containing the loop:
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._balanceOf(uint32) (src/base/Cellar.sol#1488-1491) has external calls inside a loop: BaseAdaptor(adaptor).balanceOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1490)
+	Calls stack containing the loop:
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._withdrawableFrom(uint32) (src/base/Cellar.sol#1472-1480) has external calls inside a loop: BaseAdaptor(getPositionData[position].adaptor).withdrawableFrom(getPositionData[position].adaptorData,getPositionData[position].configurationData) (src/base/Cellar.sol#1475-1479)
+	Calls stack containing the loop:
+		Cellar.totalAssetsWithdrawable()
+		Cellar._accounting(bool)
+Cellar._assetOf(uint32) (src/base/Cellar.sol#1497-1500) has external calls inside a loop: BaseAdaptor(adaptor).assetOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1499)
+	Calls stack containing the loop:
+		Cellar.totalAssetsWithdrawable()
+		Cellar._accounting(bool)
+Cellar._balanceOf(uint32) (src/base/Cellar.sol#1488-1491) has external calls inside a loop: BaseAdaptor(adaptor).balanceOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1490)
+	Calls stack containing the loop:
+		Cellar.totalAssetsWithdrawable()
+		Cellar._accounting(bool)
+Cellar._withdrawableFrom(uint32) (src/base/Cellar.sol#1472-1480) has external calls inside a loop: BaseAdaptor(getPositionData[position].adaptor).withdrawableFrom(getPositionData[position].adaptorData,getPositionData[position].configurationData) (src/base/Cellar.sol#1475-1479)
+	Calls stack containing the loop:
+		Cellar.convertToAssets(uint256)
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._assetOf(uint32) (src/base/Cellar.sol#1497-1500) has external calls inside a loop: BaseAdaptor(adaptor).assetOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1499)
+	Calls stack containing the loop:
+		Cellar.convertToAssets(uint256)
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._balanceOf(uint32) (src/base/Cellar.sol#1488-1491) has external calls inside a loop: BaseAdaptor(adaptor).balanceOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1490)
+	Calls stack containing the loop:
+		Cellar.convertToAssets(uint256)
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._withdrawableFrom(uint32) (src/base/Cellar.sol#1472-1480) has external calls inside a loop: BaseAdaptor(getPositionData[position].adaptor).withdrawableFrom(getPositionData[position].adaptorData,getPositionData[position].configurationData) (src/base/Cellar.sol#1475-1479)
+	Calls stack containing the loop:
+		Cellar.convertToShares(uint256)
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._assetOf(uint32) (src/base/Cellar.sol#1497-1500) has external calls inside a loop: BaseAdaptor(adaptor).assetOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1499)
+	Calls stack containing the loop:
+		Cellar.convertToShares(uint256)
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._balanceOf(uint32) (src/base/Cellar.sol#1488-1491) has external calls inside a loop: BaseAdaptor(adaptor).balanceOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1490)
+	Calls stack containing the loop:
+		Cellar.convertToShares(uint256)
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._withdrawableFrom(uint32) (src/base/Cellar.sol#1472-1480) has external calls inside a loop: BaseAdaptor(getPositionData[position].adaptor).withdrawableFrom(getPositionData[position].adaptorData,getPositionData[position].configurationData) (src/base/Cellar.sol#1475-1479)
+	Calls stack containing the loop:
+		Cellar.previewMint(uint256)
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._assetOf(uint32) (src/base/Cellar.sol#1497-1500) has external calls inside a loop: BaseAdaptor(adaptor).assetOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1499)
+	Calls stack containing the loop:
+		Cellar.previewMint(uint256)
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._balanceOf(uint32) (src/base/Cellar.sol#1488-1491) has external calls inside a loop: BaseAdaptor(adaptor).balanceOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1490)
+	Calls stack containing the loop:
+		Cellar.previewMint(uint256)
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._withdrawableFrom(uint32) (src/base/Cellar.sol#1472-1480) has external calls inside a loop: BaseAdaptor(getPositionData[position].adaptor).withdrawableFrom(getPositionData[position].adaptorData,getPositionData[position].configurationData) (src/base/Cellar.sol#1475-1479)
+	Calls stack containing the loop:
+		Cellar.previewWithdraw(uint256)
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._assetOf(uint32) (src/base/Cellar.sol#1497-1500) has external calls inside a loop: BaseAdaptor(adaptor).assetOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1499)
+	Calls stack containing the loop:
+		Cellar.previewWithdraw(uint256)
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._balanceOf(uint32) (src/base/Cellar.sol#1488-1491) has external calls inside a loop: BaseAdaptor(adaptor).balanceOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1490)
+	Calls stack containing the loop:
+		Cellar.previewWithdraw(uint256)
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._withdrawableFrom(uint32) (src/base/Cellar.sol#1472-1480) has external calls inside a loop: BaseAdaptor(getPositionData[position].adaptor).withdrawableFrom(getPositionData[position].adaptorData,getPositionData[position].configurationData) (src/base/Cellar.sol#1475-1479)
+	Calls stack containing the loop:
+		Cellar.previewDeposit(uint256)
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._assetOf(uint32) (src/base/Cellar.sol#1497-1500) has external calls inside a loop: BaseAdaptor(adaptor).assetOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1499)
+	Calls stack containing the loop:
+		Cellar.previewDeposit(uint256)
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._balanceOf(uint32) (src/base/Cellar.sol#1488-1491) has external calls inside a loop: BaseAdaptor(adaptor).balanceOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1490)
+	Calls stack containing the loop:
+		Cellar.previewDeposit(uint256)
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._withdrawableFrom(uint32) (src/base/Cellar.sol#1472-1480) has external calls inside a loop: BaseAdaptor(getPositionData[position].adaptor).withdrawableFrom(getPositionData[position].adaptorData,getPositionData[position].configurationData) (src/base/Cellar.sol#1475-1479)
+	Calls stack containing the loop:
+		Cellar.previewRedeem(uint256)
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._assetOf(uint32) (src/base/Cellar.sol#1497-1500) has external calls inside a loop: BaseAdaptor(adaptor).assetOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1499)
+	Calls stack containing the loop:
+		Cellar.previewRedeem(uint256)
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._balanceOf(uint32) (src/base/Cellar.sol#1488-1491) has external calls inside a loop: BaseAdaptor(adaptor).balanceOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1490)
+	Calls stack containing the loop:
+		Cellar.previewRedeem(uint256)
+		Cellar.totalAssets()
+		Cellar._accounting(bool)
+Cellar._withdrawableFrom(uint32) (src/base/Cellar.sol#1472-1480) has external calls inside a loop: BaseAdaptor(getPositionData[position].adaptor).withdrawableFrom(getPositionData[position].adaptorData,getPositionData[position].configurationData) (src/base/Cellar.sol#1475-1479)
+	Calls stack containing the loop:
+		Cellar.maxWithdraw(address)
+		Cellar._findMax(address,bool)
+		Cellar._accounting(bool)
+Cellar._assetOf(uint32) (src/base/Cellar.sol#1497-1500) has external calls inside a loop: BaseAdaptor(adaptor).assetOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1499)
+	Calls stack containing the loop:
+		Cellar.maxWithdraw(address)
+		Cellar._findMax(address,bool)
+		Cellar._accounting(bool)
+Cellar._balanceOf(uint32) (src/base/Cellar.sol#1488-1491) has external calls inside a loop: BaseAdaptor(adaptor).balanceOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1490)
+	Calls stack containing the loop:
+		Cellar.maxWithdraw(address)
+		Cellar._findMax(address,bool)
+		Cellar._accounting(bool)
+Cellar._withdrawableFrom(uint32) (src/base/Cellar.sol#1472-1480) has external calls inside a loop: BaseAdaptor(getPositionData[position].adaptor).withdrawableFrom(getPositionData[position].adaptorData,getPositionData[position].configurationData) (src/base/Cellar.sol#1475-1479)
+	Calls stack containing the loop:
+		Cellar.maxRedeem(address)
+		Cellar._findMax(address,bool)
+		Cellar._accounting(bool)
+Cellar._assetOf(uint32) (src/base/Cellar.sol#1497-1500) has external calls inside a loop: BaseAdaptor(adaptor).assetOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1499)
+	Calls stack containing the loop:
+		Cellar.maxRedeem(address)
+		Cellar._findMax(address,bool)
+		Cellar._accounting(bool)
+Cellar._balanceOf(uint32) (src/base/Cellar.sol#1488-1491) has external calls inside a loop: BaseAdaptor(adaptor).balanceOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1490)
+	Calls stack containing the loop:
+		Cellar.maxRedeem(address)
+		Cellar._findMax(address,bool)
+		Cellar._accounting(bool)
+Cellar._withdrawableFrom(uint32) (src/base/Cellar.sol#1472-1480) has external calls inside a loop: BaseAdaptor(getPositionData[position].adaptor).withdrawableFrom(getPositionData[position].adaptorData,getPositionData[position].configurationData) (src/base/Cellar.sol#1475-1479)
+	Calls stack containing the loop:
+		Cellar.callOnAdaptor(Cellar.AdaptorCall[])
+		Cellar._accounting(bool)
+Cellar._assetOf(uint32) (src/base/Cellar.sol#1497-1500) has external calls inside a loop: BaseAdaptor(adaptor).assetOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1499)
+	Calls stack containing the loop:
+		Cellar.callOnAdaptor(Cellar.AdaptorCall[])
+		Cellar._accounting(bool)
+Cellar._balanceOf(uint32) (src/base/Cellar.sol#1488-1491) has external calls inside a loop: BaseAdaptor(adaptor).balanceOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1490)
+	Calls stack containing the loop:
+		Cellar.callOnAdaptor(Cellar.AdaptorCall[])
+		Cellar._accounting(bool)
+Cellar._assetOf(uint32) (src/base/Cellar.sol#1497-1500) has external calls inside a loop: BaseAdaptor(adaptor).assetOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1499)
+	Calls stack containing the loop:
+		Cellar.getPositionAssets()
+Cellar._assetOf(uint32) (src/base/Cellar.sol#1497-1500) has external calls inside a loop: BaseAdaptor(adaptor).assetOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1499)
+	Calls stack containing the loop:
+		Cellar.viewPositionBalances()
+Cellar._balanceOf(uint32) (src/base/Cellar.sol#1488-1491) has external calls inside a loop: BaseAdaptor(adaptor).balanceOf(getPositionData[position].adaptorData) (src/base/Cellar.sol#1490)
+	Calls stack containing the loop:
+		Cellar.viewPositionBalances()
+Cellar._addPositionToCatalogue(uint32) (src/base/Cellar.sol#258-263) has external calls inside a loop: registry.revertIfPositionIsNotTrusted(positionId) (src/base/Cellar.sol#260)
+	Calls stack containing the loop:
+		CellarInitializableV2_2.constructor(Registry)
+		Cellar.constructor(Registry,ERC20,string,string,bytes)
+Cellar._addPosition(uint32,uint32,bytes,bool) (src/base/Cellar.sol#310-344) has external calls inside a loop: (adaptor,isDebt,adaptorData) = registry.addPositionToCellar(positionId) (src/base/Cellar.sol#319)
+	Calls stack containing the loop:
+		CellarInitializableV2_2.constructor(Registry)
+		Cellar.constructor(Registry,ERC20,string,string,bytes)
+PriceRouter._setupPriceForCurveDerivative(ERC20,address,bytes) (src/modules/price-router/PriceRouter.sol#880-912) has external calls inside a loop: pool.coins(coinsLength) (src/modules/price-router/PriceRouter.sol#885-889)
+	Calls stack containing the loop:
+		PriceRouter.addAsset(ERC20,PriceRouter.AssetSettings,bytes,uint256)
+PriceRouter._setupPriceForCurveDerivative(ERC20,address,bytes) (src/modules/price-router/PriceRouter.sol#880-912) has external calls inside a loop: coins[i] = pool.coins(i) (src/modules/price-router/PriceRouter.sol#895)
+	Calls stack containing the loop:
+		PriceRouter.addAsset(ERC20,PriceRouter.AssetSettings,bytes,uint256)
+PriceRouter._setupPriceForCurveV2Derivative(ERC20,address,bytes) (src/modules/price-router/PriceRouter.sol#957-987) has external calls inside a loop: pool.coins(coinsLength) (src/modules/price-router/PriceRouter.sol#962-966)
+	Calls stack containing the loop:
+		PriceRouter.addAsset(ERC20,PriceRouter.AssetSettings,bytes,uint256)
+PriceRouter._setupPriceForCurveV2Derivative(ERC20,address,bytes) (src/modules/price-router/PriceRouter.sol#957-987) has external calls inside a loop: coins[i] = pool.coins(i) (src/modules/price-router/PriceRouter.sol#970)
+	Calls stack containing the loop:
+		PriceRouter.addAsset(ERC20,PriceRouter.AssetSettings,bytes,uint256)
+PriceRouter._checkVirtualPriceBound(bytes) (src/modules/price-router/PriceRouter.sol#713-769) has external calls inside a loop: currentVirtualPrice = ICurvePool(getAssetSettings[ERC20(asset)].source).get_virtual_price() (src/modules/price-router/PriceRouter.sol#731)
+	Calls stack containing the loop:
+		PriceRouter.checkUpkeep(bytes)
+PriceRouter._getValues(ERC20[],uint256[],ERC20,PriceRouter.PriceCache[8]) (src/modules/price-router/PriceRouter.sol#421-462) has external calls inside a loop: valueInQuote += _getValueInQuote(basePrice,quotePrice,baseAsset.decimals(),quoteDecimals,amounts[i]) (src/modules/price-router/PriceRouter.sol#450-456)
+	Calls stack containing the loop:
+		PriceRouter.getValuesDelta(ERC20[],uint256[],ERC20[],uint256[],ERC20)
+PriceRouter._getValues(ERC20[],uint256[],ERC20,PriceRouter.PriceCache[8]) (src/modules/price-router/PriceRouter.sol#421-462) has external calls inside a loop: valueInQuote += _getValueInQuote(basePrice,quotePrice,baseAsset.decimals(),quoteDecimals,amounts[i]) (src/modules/price-router/PriceRouter.sol#450-456)
+	Calls stack containing the loop:
+		PriceRouter.getValues(ERC20[],uint256[],ERC20)
+PriceRouter._getPriceForChainlinkDerivative(ERC20,address,PriceRouter.PriceCache[8]) (src/modules/price-router/PriceRouter.sol#537-553) has external calls inside a loop: (None,_price,None,_timestamp,None) = aggregator.latestRoundData() (src/modules/price-router/PriceRouter.sol#544)
+	Calls stack containing the loop:
+		PriceRouter.getExchangeRates(ERC20[],ERC20)
+		PriceRouter._getExchangeRate(ERC20,PriceRouter.AssetSettings,ERC20,PriceRouter.AssetSettings,uint8,PriceRouter.PriceCache[8])
+		PriceRouter._getPriceInUSD(ERC20,PriceRouter.AssetSettings,PriceRouter.PriceCache[8])
+PriceRouter._getPriceForCurveDerivative(ERC20,address,PriceRouter.PriceCache[8]) (src/modules/price-router/PriceRouter.sol#917-947) has external calls inside a loop: virtualPrice = pool.get_virtual_price() (src/modules/price-router/PriceRouter.sol#936)
+	Calls stack containing the loop:
+		PriceRouter.getExchangeRates(ERC20[],ERC20)
+		PriceRouter._getExchangeRate(ERC20,PriceRouter.AssetSettings,ERC20,PriceRouter.AssetSettings,uint8,PriceRouter.PriceCache[8])
+		PriceRouter._getPriceInUSD(ERC20,PriceRouter.AssetSettings,PriceRouter.PriceCache[8])
+PriceRouter._getPriceForCurveDerivative(ERC20,address,PriceRouter.PriceCache[8]) (src/modules/price-router/PriceRouter.sol#917-947) has external calls inside a loop: curveTokenDecimals = ERC20(asset).decimals() (src/modules/price-router/PriceRouter.sol#945)
+	Calls stack containing the loop:
+		PriceRouter.getExchangeRates(ERC20[],ERC20)
+		PriceRouter._getExchangeRate(ERC20,PriceRouter.AssetSettings,ERC20,PriceRouter.AssetSettings,uint8,PriceRouter.PriceCache[8])
+		PriceRouter._getPriceInUSD(ERC20,PriceRouter.AssetSettings,PriceRouter.PriceCache[8])
+PriceRouter._getPriceForCurveV2Derivative(ERC20,address,PriceRouter.PriceCache[8]) (src/modules/price-router/PriceRouter.sol#1012-1048) has external calls inside a loop: virtualPrice = pool.get_virtual_price() (src/modules/price-router/PriceRouter.sol#1020)
+	Calls stack containing the loop:
+		PriceRouter.getExchangeRates(ERC20[],ERC20)
+		PriceRouter._getExchangeRate(ERC20,PriceRouter.AssetSettings,ERC20,PriceRouter.AssetSettings,uint8,PriceRouter.PriceCache[8])
+		PriceRouter._getPriceInUSD(ERC20,PriceRouter.AssetSettings,PriceRouter.PriceCache[8])
+PriceRouter._getPriceForCurveV2Derivative(ERC20,address,PriceRouter.PriceCache[8]) (src/modules/price-router/PriceRouter.sol#1012-1048) has external calls inside a loop: pool.lp_price().mulDivDown(_getPriceInUSD(token0,getAssetSettings[token0],cache),1e18) (src/modules/price-router/PriceRouter.sol#1031)
+	Calls stack containing the loop:
+		PriceRouter.getExchangeRates(ERC20[],ERC20)
+		PriceRouter._getExchangeRate(ERC20,PriceRouter.AssetSettings,ERC20,PriceRouter.AssetSettings,uint8,PriceRouter.PriceCache[8])
+		PriceRouter._getPriceInUSD(ERC20,PriceRouter.AssetSettings,PriceRouter.PriceCache[8])
+PriceRouter._getPriceForCurveV2Derivative(ERC20,address,PriceRouter.PriceCache[8]) (src/modules/price-router/PriceRouter.sol#1012-1048) has external calls inside a loop: t1Price = pool.price_oracle(0) (src/modules/price-router/PriceRouter.sol#1033)
+	Calls stack containing the loop:
+		PriceRouter.getExchangeRates(ERC20[],ERC20)
+		PriceRouter._getExchangeRate(ERC20,PriceRouter.AssetSettings,ERC20,PriceRouter.AssetSettings,uint8,PriceRouter.PriceCache[8])
+		PriceRouter._getPriceInUSD(ERC20,PriceRouter.AssetSettings,PriceRouter.PriceCache[8])
+PriceRouter._getPriceForCurveV2Derivative(ERC20,address,PriceRouter.PriceCache[8]) (src/modules/price-router/PriceRouter.sol#1012-1048) has external calls inside a loop: t2Price = pool.price_oracle(1) (src/modules/price-router/PriceRouter.sol#1034)
+	Calls stack containing the loop:
+		PriceRouter.getExchangeRates(ERC20[],ERC20)
+		PriceRouter._getExchangeRate(ERC20,PriceRouter.AssetSettings,ERC20,PriceRouter.AssetSettings,uint8,PriceRouter.PriceCache[8])
+		PriceRouter._getPriceInUSD(ERC20,PriceRouter.AssetSettings,PriceRouter.PriceCache[8])
+PriceRouter._getPriceForCurveV2Derivative(ERC20,address,PriceRouter.PriceCache[8]) (src/modules/price-router/PriceRouter.sol#1012-1048) has external calls inside a loop: g = pool.gamma().mulDivDown(1e18,GAMMA0) (src/modules/price-router/PriceRouter.sol#1038)
+	Calls stack containing the loop:
+		PriceRouter.getExchangeRates(ERC20[],ERC20)
+		PriceRouter._getExchangeRate(ERC20,PriceRouter.AssetSettings,ERC20,PriceRouter.AssetSettings,uint8,PriceRouter.PriceCache[8])
+		PriceRouter._getPriceInUSD(ERC20,PriceRouter.AssetSettings,PriceRouter.PriceCache[8])
+PriceRouter._getPriceForCurveV2Derivative(ERC20,address,PriceRouter.PriceCache[8]) (src/modules/price-router/PriceRouter.sol#1012-1048) has external calls inside a loop: a = pool.A().mulDivDown(1e18,A0) (src/modules/price-router/PriceRouter.sol#1039)
+	Calls stack containing the loop:
+		PriceRouter.getExchangeRates(ERC20[],ERC20)
+		PriceRouter._getExchangeRate(ERC20,PriceRouter.AssetSettings,ERC20,PriceRouter.AssetSettings,uint8,PriceRouter.PriceCache[8])
+		PriceRouter._getPriceInUSD(ERC20,PriceRouter.AssetSettings,PriceRouter.PriceCache[8])
+Multicall.multicall(bytes[]) (src/base/Multicall.sol#13-30) has external calls inside a loop: (success,result) = address(this).delegatecall(data[i]) (src/base/Multicall.sol#16)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop
+INFO:Detectors:
+Reentrancy in Cellar.afterDeposit(uint256,uint256,address) (src/base/Cellar.sol#807-810):
+	External calls:
+	- _depositTo(holdingPosition,assets) (src/base/Cellar.sol#808)
+		- adaptor.functionDelegateCall(abi.encodeWithSelector(BaseAdaptor.deposit.selector,assets,getPositionData[position].adaptorData,getPositionData[position].configurationData)) (src/base/Cellar.sol#1439-1446)
+		- (success,returndata) = target.delegatecall(data) (lib/openzeppelin-contracts/contracts/utils/Address.sol#185)
+	State variables written after the call(s):
+	- userShareLockStartTime[receiver] = block.timestamp (src/base/Cellar.sol#809)
+Reentrancy in Cellar.callOnAdaptor(Cellar.AdaptorCall[]) (src/base/Cellar.sol#1321-1356):
+	External calls:
+	- adaptor.functionDelegateCall(data[i].callData[j]) (src/base/Cellar.sol#1343)
+	State variables written after the call(s):
+	- blockExternalReceiver = false (src/base/Cellar.sol#1355)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2
+INFO:Detectors:
+Registry.completeTransition() (src/Registry.sol#199-208) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < transitionStart + TRANSITION_PERIOD (src/Registry.sol#202)
+Registry._checkOwner() (src/Registry.sol#213-216) uses timestamp for comparisons
+	Dangerous comparisons:
+	- transitionStart != 0 (src/Registry.sol#215)
+Cellar._checkIfSharesLocked(address) (src/base/Cellar.sol#755-762) uses timestamp for comparisons
+	Dangerous comparisons:
+	- lockTime != 0 (src/base/Cellar.sol#757)
+	- timeSharesAreUnlocked > block.timestamp (src/base/Cellar.sol#759)
+Cellar._findMax(address,bool) (src/base/Cellar.sol#1144-1161) uses timestamp for comparisons
+	Dangerous comparisons:
+	- timeSharesAreUnlocked > block.timestamp (src/base/Cellar.sol#1150)
+ERC20.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (src/base/ERC20.sol#116-160) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(deadline >= block.timestamp,PERMIT_DEADLINE_EXPIRED) (src/base/ERC20.sol#125)
+PriceRouter._checkPriceFeed(address,uint256,uint256,uint144,uint88,uint24) (src/modules/price-router/PriceRouter.sol#588-603) uses timestamp for comparisons
+	Dangerous comparisons:
+	- timeSinceLastUpdate > heartbeat (src/modules/price-router/PriceRouter.sol#601)
+PriceRouter._checkVirtualPriceBound(bytes) (src/modules/price-router/PriceRouter.sol#713-769) uses timestamp for comparisons
+	Dangerous comparisons:
+	- (block.timestamp - vpBound.timeLastUpdated) < vpBound.rateLimit (src/modules/price-router/PriceRouter.sol#728)
+	- currentVirtualPrice > vpBound.datum (src/modules/price-router/PriceRouter.sol#734)
+	- delta > maxDelta (src/modules/price-router/PriceRouter.sol#746)
+	- maxDelta >= minDelta (src/modules/price-router/PriceRouter.sol#753)
+PriceRouter._updateVirtualPriceBound(bytes) (src/modules/price-router/PriceRouter.sol#809-837) uses timestamp for comparisons
+	Dangerous comparisons:
+	- (block.timestamp - vpBound.timeLastUpdated) < vpBound.rateLimit (src/modules/price-router/PriceRouter.sol#819)
+PriceRouter._checkBounds(uint256,uint256,uint256) (src/modules/price-router/PriceRouter.sol#862-865) uses timestamp for comparisons
+	Dangerous comparisons:
+	- current < lower (src/modules/price-router/PriceRouter.sol#863)
+	- current > upper (src/modules/price-router/PriceRouter.sol#864)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp
+INFO:Detectors:
+Address._revert(bytes,string) (lib/openzeppelin-contracts/contracts/utils/Address.sol#231-243) uses assembly
+	- INLINE ASM (lib/openzeppelin-contracts/contracts/utils/Address.sol#236-239)
+Multicall.multicall(bytes[]) (src/base/Multicall.sol#13-30) uses assembly
+	- INLINE ASM (src/base/Multicall.sol#22-24)
+SafeTransferLib.safeTransferETH(address,uint256) (src/base/SafeTransferLib.sol#15-24) uses assembly
+	- INLINE ASM (src/base/SafeTransferLib.sol#18-21)
+SafeTransferLib.safeTransferFrom(ERC20,address,address,uint256) (src/base/SafeTransferLib.sol#30-61) uses assembly
+	- INLINE ASM (src/base/SafeTransferLib.sol#38-58)
+SafeTransferLib.safeTransfer(ERC20,address,uint256) (src/base/SafeTransferLib.sol#63-92) uses assembly
+	- INLINE ASM (src/base/SafeTransferLib.sol#70-89)
+SafeTransferLib.safeApprove(ERC20,address,uint256) (src/base/SafeTransferLib.sol#94-123) uses assembly
+	- INLINE ASM (src/base/SafeTransferLib.sol#101-120)
+SwapRouter.swap(SwapRouter.Exchange,bytes,address,ERC20,ERC20) (src/modules/swap-router/SwapRouter.sol#87-113) uses assembly
+	- INLINE ASM (src/modules/swap-router/SwapRouter.sol#103-106)
+Math.mulDivDown(uint256,uint256,uint256) (src/utils/Math.sol#43-60) uses assembly
+	- INLINE ASM (src/utils/Math.sol#48-59)
+Math.mulDivUp(uint256,uint256,uint256) (src/utils/Math.sol#62-81) uses assembly
+	- INLINE ASM (src/utils/Math.sol#67-80)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage
+INFO:Detectors:
+5 different versions of Solidity are used:
+	- Version constraint ^0.8.0 is used by:
+		-^0.8.0 (lib/chainlink/contracts/src/v0.8/interfaces/AggregatorInterface.sol#2)
+		-^0.8.0 (lib/chainlink/contracts/src/v0.8/interfaces/AggregatorV2V3Interface.sol#2)
+		-^0.8.0 (lib/chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol#2)
+		-^0.8.0 (lib/chainlink/contracts/src/v0.8/interfaces/AutomationCompatibleInterface.sol#2)
+		-^0.8.0 (lib/openzeppelin-contracts/contracts/access/Ownable.sol#4)
+		-^0.8.0 (lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol#4)
+		-^0.8.0 (lib/openzeppelin-contracts/contracts/token/ERC721/IERC721Receiver.sol#4)
+		-^0.8.0 (lib/openzeppelin-contracts/contracts/token/ERC721/utils/ERC721Holder.sol#4)
+		-^0.8.0 (lib/openzeppelin-contracts/contracts/utils/Context.sol#4)
+		-^0.8.0 (lib/openzeppelin-contracts/contracts/utils/math/SafeCast.sol#5)
+	- Version constraint ^0.8.2 is used by:
+		-^0.8.2 (lib/openzeppelin-contracts/contracts/proxy/utils/Initializable.sol#4)
+	- Version constraint ^0.8.1 is used by:
+		-^0.8.1 (lib/openzeppelin-contracts/contracts/utils/Address.sol#4)
+	- Version constraint >=0.8.0 is used by:
+		->=0.8.0 (lib/solmate/src/auth/Owned.sol#2)
+		->=0.8.0 (src/base/ERC20.sol#2)
+		->=0.8.0 (src/base/ERC4626.sol#2)
+		->=0.8.0 (src/base/Multicall.sol#2)
+		->=0.8.0 (src/base/SafeTransferLib.sol#2)
+		->=0.8.0 (src/interfaces/IMulticall.sol#2)
+		->=0.8.0 (src/interfaces/external/IUniswapV2Router02.sol#2)
+		->=0.8.0 (src/interfaces/external/IUniswapV3Router.sol#2)
+	- Version constraint 0.8.16 is used by:
+		-0.8.16 (src/Registry.sol#2)
+		-0.8.16 (src/base/Cellar.sol#2)
+		-0.8.16 (src/base/CellarInitializableV2_2.sol#2)
+		-0.8.16 (src/interfaces/external/IAaveToken.sol#2)
+		-0.8.16 (src/interfaces/external/IChainlinkAggregator.sol#2)
+		-0.8.16 (src/interfaces/external/ICurvePool.sol#2)
+		-0.8.16 (src/interfaces/external/IGravity.sol#2)
+		-0.8.16 (src/modules/adaptors/BaseAdaptor.sol#2)
+		-0.8.16 (src/modules/price-router/PriceRouter.sol#2)
+		-0.8.16 (src/modules/swap-router/SwapRouter.sol#2)
+		-0.8.16 (src/utils/Math.sol#2)
+		-0.8.16 (src/utils/Uint32Array.sol#2)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#different-pragma-directives-are-used
+INFO:Detectors:
+BaseAdaptor.PRICE_ROUTER_REGISTRY_SLOT() (src/modules/adaptors/BaseAdaptor.sol#60-62) is never used and should be removed
+BaseAdaptor.SWAP_ROUTER_REGISTRY_SLOT() (src/modules/adaptors/BaseAdaptor.sol#56-58) is never used and should be removed
+BaseAdaptor._externalReceiverCheck(address) (src/modules/adaptors/BaseAdaptor.sol#179-182) is never used and should be removed
+BaseAdaptor._maxAvailable(ERC20,uint256) (src/modules/adaptors/BaseAdaptor.sol#164-167) is never used and should be removed
+BaseAdaptor._revokeExternalApproval(ERC20,address) (src/modules/adaptors/BaseAdaptor.sol#172-174) is never used and should be removed
+ERC4626.afterDeposit(uint256,uint256,address) (src/base/ERC4626.sol#195-199) is never used and should be removed
+ERC4626.afterWithdraw(uint256,uint256,address,address) (src/base/ERC4626.sol#208-213) is never used and should be removed
+ERC4626.beforeDeposit(uint256,uint256,address) (src/base/ERC4626.sol#189-193) is never used and should be removed
+ERC4626.beforeWithdraw(uint256,uint256,address,address) (src/base/ERC4626.sol#201-206) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code
+INFO:Detectors:
+Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+	- FullInlinerNonExpressionSplitArgumentEvaluationOrder
+	- MissingSideEffectsOnSelectorAccess
+	- AbiReencodingHeadOverflowWithStaticArrayCleanup
+	- DirtyBytesArrayToStorage
+	- DataLocationChangeInInternalOverride
+	- NestedCalldataArrayAbiReencodingSizeValidation
+	- SignedImmutables
+	- ABIDecodeTwoDimensionalArrayMemory
+	- KeccakCaching.
+It is used by:
+	- ^0.8.0 (lib/chainlink/contracts/src/v0.8/interfaces/AggregatorInterface.sol#2)
+	- ^0.8.0 (lib/chainlink/contracts/src/v0.8/interfaces/AggregatorV2V3Interface.sol#2)
+	- ^0.8.0 (lib/chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol#2)
+	- ^0.8.0 (lib/chainlink/contracts/src/v0.8/interfaces/AutomationCompatibleInterface.sol#2)
+	- ^0.8.0 (lib/openzeppelin-contracts/contracts/access/Ownable.sol#4)
+	- ^0.8.0 (lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol#4)
+	- ^0.8.0 (lib/openzeppelin-contracts/contracts/token/ERC721/IERC721Receiver.sol#4)
+	- ^0.8.0 (lib/openzeppelin-contracts/contracts/token/ERC721/utils/ERC721Holder.sol#4)
+	- ^0.8.0 (lib/openzeppelin-contracts/contracts/utils/Context.sol#4)
+	- ^0.8.0 (lib/openzeppelin-contracts/contracts/utils/math/SafeCast.sol#5)
+Version constraint ^0.8.2 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+	- FullInlinerNonExpressionSplitArgumentEvaluationOrder
+	- MissingSideEffectsOnSelectorAccess
+	- AbiReencodingHeadOverflowWithStaticArrayCleanup
+	- DirtyBytesArrayToStorage
+	- DataLocationChangeInInternalOverride
+	- NestedCalldataArrayAbiReencodingSizeValidation
+	- SignedImmutables
+	- ABIDecodeTwoDimensionalArrayMemory
+	- KeccakCaching.
+It is used by:
+	- ^0.8.2 (lib/openzeppelin-contracts/contracts/proxy/utils/Initializable.sol#4)
+Version constraint ^0.8.1 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+	- FullInlinerNonExpressionSplitArgumentEvaluationOrder
+	- MissingSideEffectsOnSelectorAccess
+	- AbiReencodingHeadOverflowWithStaticArrayCleanup
+	- DirtyBytesArrayToStorage
+	- DataLocationChangeInInternalOverride
+	- NestedCalldataArrayAbiReencodingSizeValidation
+	- SignedImmutables
+	- ABIDecodeTwoDimensionalArrayMemory
+	- KeccakCaching.
+It is used by:
+	- ^0.8.1 (lib/openzeppelin-contracts/contracts/utils/Address.sol#4)
+Version constraint >=0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+	- FullInlinerNonExpressionSplitArgumentEvaluationOrder
+	- MissingSideEffectsOnSelectorAccess
+	- AbiReencodingHeadOverflowWithStaticArrayCleanup
+	- DirtyBytesArrayToStorage
+	- DataLocationChangeInInternalOverride
+	- NestedCalldataArrayAbiReencodingSizeValidation
+	- SignedImmutables
+	- ABIDecodeTwoDimensionalArrayMemory
+	- KeccakCaching.
+It is used by:
+	- >=0.8.0 (lib/solmate/src/auth/Owned.sol#2)
+	- >=0.8.0 (src/base/ERC20.sol#2)
+	- >=0.8.0 (src/base/ERC4626.sol#2)
+	- >=0.8.0 (src/base/Multicall.sol#2)
+	- >=0.8.0 (src/base/SafeTransferLib.sol#2)
+	- >=0.8.0 (src/interfaces/IMulticall.sol#2)
+	- >=0.8.0 (src/interfaces/external/IUniswapV2Router02.sol#2)
+	- >=0.8.0 (src/interfaces/external/IUniswapV3Router.sol#2)
+Version constraint 0.8.16 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+	- VerbatimInvalidDeduplication
+	- FullInlinerNonExpressionSplitArgumentEvaluationOrder
+	- MissingSideEffectsOnSelectorAccess
+	- StorageWriteRemovalBeforeConditionalTermination.
+It is used by:
+	- 0.8.16 (src/Registry.sol#2)
+	- 0.8.16 (src/base/Cellar.sol#2)
+	- 0.8.16 (src/base/CellarInitializableV2_2.sol#2)
+	- 0.8.16 (src/interfaces/external/IAaveToken.sol#2)
+	- 0.8.16 (src/interfaces/external/IChainlinkAggregator.sol#2)
+	- 0.8.16 (src/interfaces/external/ICurvePool.sol#2)
+	- 0.8.16 (src/interfaces/external/IGravity.sol#2)
+	- 0.8.16 (src/modules/adaptors/BaseAdaptor.sol#2)
+	- 0.8.16 (src/modules/price-router/PriceRouter.sol#2)
+	- 0.8.16 (src/modules/swap-router/SwapRouter.sol#2)
+	- 0.8.16 (src/utils/Math.sol#2)
+	- 0.8.16 (src/utils/Uint32Array.sol#2)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity
+INFO:Detectors:
+Low level call in Address.sendValue(address,uint256) (lib/openzeppelin-contracts/contracts/utils/Address.sol#60-65):
+	- (success,None) = recipient.call{value: amount}() (lib/openzeppelin-contracts/contracts/utils/Address.sol#63)
+Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (lib/openzeppelin-contracts/contracts/utils/Address.sol#128-137):
+	- (success,returndata) = target.call{value: value}(data) (lib/openzeppelin-contracts/contracts/utils/Address.sol#135)
+Low level call in Address.functionStaticCall(address,bytes,string) (lib/openzeppelin-contracts/contracts/utils/Address.sol#155-162):
+	- (success,returndata) = target.staticcall(data) (lib/openzeppelin-contracts/contracts/utils/Address.sol#160)
+Low level call in Address.functionDelegateCall(address,bytes,string) (lib/openzeppelin-contracts/contracts/utils/Address.sol#180-187):
+	- (success,returndata) = target.delegatecall(data) (lib/openzeppelin-contracts/contracts/utils/Address.sol#185)
+Low level call in Multicall.multicall(bytes[]) (src/base/Multicall.sol#13-30):
+	- (success,result) = address(this).delegatecall(data[i]) (src/base/Multicall.sol#16)
+Low level call in SwapRouter.swap(SwapRouter.Exchange,bytes,address,ERC20,ERC20) (src/modules/swap-router/SwapRouter.sol#87-113):
+	- (success,result) = address(this).delegatecall(abi.encodeWithSelector(getExchangeSelector[exchange],swapData,receiver,assetIn,assetOut)) (src/modules/swap-router/SwapRouter.sol#95-97)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls
+INFO:Detectors:
+Contract CellarInitializableV2_2 (src/base/CellarInitializableV2_2.sol#7-83) is not in CapWords
+Function ERC20.DOMAIN_SEPARATOR() (src/base/ERC20.sol#162-164) is not in mixedCase
+Variable ERC20.INITIAL_CHAIN_ID (src/base/ERC20.sol#41) is not in mixedCase
+Variable ERC20.INITIAL_DOMAIN_SEPARATOR (src/base/ERC20.sol#43) is not in mixedCase
+Function IAaveToken.UNDERLYING_ASSET_ADDRESS() (src/interfaces/external/IAaveToken.sol#7) is not in mixedCase
+Function ICurvePool.get_virtual_price() (src/interfaces/external/ICurvePool.sol#7) is not in mixedCase
+Function ICurvePool.claim_admin_fees() (src/interfaces/external/ICurvePool.sol#9) is not in mixedCase
+Function ICurvePool.withdraw_admin_fees() (src/interfaces/external/ICurvePool.sol#11) is not in mixedCase
+Function ICurvePool.A() (src/interfaces/external/ICurvePool.sol#15) is not in mixedCase
+Function ICurvePool.lp_price() (src/interfaces/external/ICurvePool.sol#17) is not in mixedCase
+Function ICurvePool.price_oracle() (src/interfaces/external/ICurvePool.sol#19) is not in mixedCase
+Function ICurvePool.price_oracle(uint256) (src/interfaces/external/ICurvePool.sol#21) is not in mixedCase
+Function IUniswapV2Router01.WETH() (src/interfaces/external/IUniswapV2Router02.sol#7) is not in mixedCase
+Function BaseAdaptor.SWAP_ROUTER_REGISTRY_SLOT() (src/modules/adaptors/BaseAdaptor.sol#56-58) is not in mixedCase
+Function BaseAdaptor.PRICE_ROUTER_REGISTRY_SLOT() (src/modules/adaptors/BaseAdaptor.sol#60-62) is not in mixedCase
+Parameter PriceRouter.addAsset(ERC20,PriceRouter.AssetSettings,bytes,uint256)._asset (src/modules/price-router/PriceRouter.sol#117) is not in mixedCase
+Parameter PriceRouter.addAsset(ERC20,PriceRouter.AssetSettings,bytes,uint256)._settings (src/modules/price-router/PriceRouter.sol#118) is not in mixedCase
+Parameter PriceRouter.addAsset(ERC20,PriceRouter.AssetSettings,bytes,uint256)._storage (src/modules/price-router/PriceRouter.sol#119) is not in mixedCase
+Parameter PriceRouter.addAsset(ERC20,PriceRouter.AssetSettings,bytes,uint256)._expectedAnswer (src/modules/price-router/PriceRouter.sol#120) is not in mixedCase
+Parameter PriceRouter.updateVirtualPriceBound(address,uint32,uint32,uint32)._asset (src/modules/price-router/PriceRouter.sol#695) is not in mixedCase
+Parameter PriceRouter.updateVirtualPriceBound(address,uint32,uint32,uint32)._posDelta (src/modules/price-router/PriceRouter.sol#696) is not in mixedCase
+Parameter PriceRouter.updateVirtualPriceBound(address,uint32,uint32,uint32)._negDelta (src/modules/price-router/PriceRouter.sol#697) is not in mixedCase
+Parameter PriceRouter.updateVirtualPriceBound(address,uint32,uint32,uint32)._rateLimit (src/modules/price-router/PriceRouter.sol#698) is not in mixedCase
+Variable PriceRouter.ETH_FAST_GAS_FEED (src/modules/price-router/PriceRouter.sol#649) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions
+INFO:Detectors:
+SafeTransferLib.safeTransferFrom(ERC20,address,address,uint256) (src/base/SafeTransferLib.sol#30-61) uses literals with too many digits:
+	- mstore(uint256,uint256)(freeMemoryPointer_safeTransferFrom_asm_0,0x23b872dd00000000000000000000000000000000000000000000000000000000) (src/base/SafeTransferLib.sol#43)
+SafeTransferLib.safeTransfer(ERC20,address,uint256) (src/base/SafeTransferLib.sol#63-92) uses literals with too many digits:
+	- mstore(uint256,uint256)(freeMemoryPointer_safeTransfer_asm_0,0xa9059cbb00000000000000000000000000000000000000000000000000000000) (src/base/SafeTransferLib.sol#75)
+SafeTransferLib.safeApprove(ERC20,address,uint256) (src/base/SafeTransferLib.sol#94-123) uses literals with too many digits:
+	- mstore(uint256,uint256)(freeMemoryPointer_safeApprove_asm_0,0x095ea7b300000000000000000000000000000000000000000000000000000000) (src/base/SafeTransferLib.sol#106)
+PriceRouter.slitherConstructorConstantVariables() (src/modules/price-router/PriceRouter.sol#20-1077) uses literals with too many digits:
+	- GAMMA0 = 28000000000000 (src/modules/price-router/PriceRouter.sol#989)
+PriceRouter.slitherConstructorConstantVariables() (src/modules/price-router/PriceRouter.sol#20-1077) uses literals with too many digits:
+	- DISCOUNT0 = 1087460000000000 (src/modules/price-router/PriceRouter.sol#991)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits
+INFO:Detectors:
+BaseAdaptor (src/modules/adaptors/BaseAdaptor.sol#16-192) does not implement functions:
+	- BaseAdaptor.assetOf(bytes) (src/modules/adaptors/BaseAdaptor.sol#124)
+	- BaseAdaptor.balanceOf(bytes) (src/modules/adaptors/BaseAdaptor.sol#109)
+	- BaseAdaptor.deposit(uint256,bytes,bytes) (src/modules/adaptors/BaseAdaptor.sol#88)
+	- BaseAdaptor.isDebt() (src/modules/adaptors/BaseAdaptor.sol#139)
+	- BaseAdaptor.withdraw(uint256,address,bytes,bytes) (src/modules/adaptors/BaseAdaptor.sol#97-102)
+	- BaseAdaptor.withdrawableFrom(bytes,bytes) (src/modules/adaptors/BaseAdaptor.sol#117)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unimplemented-functions
+INFO:Detectors:
+Loop condition i < creditPositions.length (src/base/Cellar.sol#1507) should use cached array length instead of referencing `length` member of the storage array.
+ Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#cache-array-length
+INFO:Slither:. analyzed (34 contracts with 100 detectors), 191 result(s) found
+osboxes@osboxes:~/block_chain/solidity_review/somm_finance/somm_finance_deployed_Real_Yield_ENS$ 

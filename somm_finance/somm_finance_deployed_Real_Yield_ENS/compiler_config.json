@@ -1,0 +1,44 @@
+{
+	"language": "Solidity",
+	"settings": {
+		"remappings": [
+			"@chainlink/=lib/chainlink/",
+			"@ds-test/=lib/forge-std/lib/ds-test/src/",
+			"@forge-std/=lib/forge-std/src/",
+			"@openzeppelin/=lib/openzeppelin-contracts/",
+			"@solmate/=lib/solmate/src/",
+			"@uniswap/v3-core/=lib/v3-core/",
+			"@uniswap/v3-periphery/=lib/v3-periphery/",
+			"@uniswapV3C/=lib/v3-core.git/contracts/",
+			"@uniswapV3P/=lib/v3-periphery.git/contracts/",
+			"chainlink/=lib/chainlink/integration-tests/contracts/ethereum/src/",
+			"ds-test/=lib/forge-std/lib/ds-test/src/",
+			"forge-std/=lib/forge-std/src/",
+			"openzeppelin-contracts/=lib/openzeppelin-contracts/",
+			"solmate/=lib/solmate/src/",
+			"v3-core.git/=lib/v3-core.git/contracts/",
+			"v3-periphery.git/=lib/v3-periphery.git/contracts/"
+		],
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"outputSelection": {
+			"*": {
+				"*": [
+					"evm.bytecode",
+					"evm.deployedBytecode",
+					"devdoc",
+					"userdoc",
+					"metadata",
+					"abi"
+				]
+			}
+		},
+		"evmVersion": "london",
+		"libraries": {}
+	}
+}

@@ -1,0 +1,27 @@
+SolidityScan result for code-sample/src/interfaces/external/IAaveToken.sol:
+#	NAME	SEVERITY	CONFIDENCE	DESCRIPTION	REMEDIATION
+1.	OUTDATED COMPILER VERSION	low	2	
+Using an outdated compiler version can be problematic especially if there are publicly disclosed bugs and issues that affect the current compiler version.
+
+Not Available
+2.	USE SOLADY LIB WHEN POSSIBLE	gas	2	
+The contract is found to use OpenZeppelin libraries for ownership and token standards, which, while robust and widely used, may not be the most gas-efficient choice. Solady provides equivalent modules that are specifically optimized for gas efficiency, which can lead to significant cost savings in transaction fees. Using Solady's versions of these libraries can help reduce the overall gas consumption of the contract, making it more efficient and cost-effective for users.
+
+Lines: ["4:4"]	
+To remediate this issue, replace the OpenZeppelin imports with their Solady equivalents. This involves changing the import paths to Solady's libraries, which are designed to be more gas-efficient. Ensure that the functionality provided by Solady matches the requirements of your contract, as there might be slight differences in implementation. Thoroughly test the contract after making these changes to ensure that all functionalities work as expected.
+
+3.	UNUSED IMPORTS	gas	2	
+Solidity is a Gas-constrained language. Having unused code or import statements incurs extra gas usage when deploying the contract.
+
+Lines: ["4:4"]	
+It is recommended to remove the import statement if it’s not supposed to be used.
+
+Scan Summary:
+
+  Lines Analyzed: 6
+
+  Scan Score: 95.00
+
+  Issue Distribution: { "critical": 0, "gas": 2, "high": 0, "informational": 0, "low": 1, "medium": 0 }
+
+For more details, go to SolidityScan.

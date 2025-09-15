@@ -1,0 +1,42 @@
+SolidityScan result for code-sample/src/base/CellarInitializableV2_2.sol:
+#	NAME	SEVERITY	CONFIDENCE	DESCRIPTION	REMEDIATION
+1.	OUTDATED COMPILER VERSION	low	2	
+Using an outdated compiler version can be problematic especially if there are publicly disclosed bugs and issues that affect the current compiler version.
+
+Not Available
+2.	CONTRACT NAME SHOULD USE PASCALCASE	informational	2	
+In Solidity, it's advisable to follow the established style guide, which dictates that contract names should be in PascalCase and match their respective file names. This adherence to consistent naming conventions not only enhances code readability and maintainability but also facilitates smoother collaboration among developers. By aligning with these recommendations, you make your code more accessible to others and reduce the likelihood of naming conflicts, contributing to a well-organized and efficient coding environment.
+
+Not Available
+3.	HARD-CODED ADDRESS DETECTED	informational	0	
+The contract contains an unknown hard-coded address. This address might be used for some malicious activity. Please check the hard-coded address and its usage.
+These hard-coded addresses may be used everywhere throughout the code to define states and interact with the functions and external calls.
+Therefore, it is extremely crucial to ensure the correctness of these token contracts as they define various important aspects of the protocol operation.
+A misconfigured address mapping could lead to the potential loss of user funds or compromise of the contract owner depending on the function logic.
+
+Not Available
+4.	DEFINE CONSTRUCTOR AS PAYABLE	gas	0	
+Developers can save around 10 opcodes and some gas if the constructors are defined as payable.
+
+However, it should be noted that it comes with risks because payable constructors can accept ETH during deployment.
+
+Lines: ["12:22"]	
+It is suggested to mark the constructors as payable to save some gas. Make sure it does not lead to any adverse effects in case an upgrade pattern is involved.
+
+5.	ABI ENCODE IS LESS EFFICIENT THAN ABI ENCODEPACKED	gas	0	
+The contract is using abi.encode() in the function. In abi.encode(), all elementary types are padded to 32 bytes and dynamic arrays include their length, whereas abi.encodePacked() will only use the minimal required memory to encode the data.
+
+Lines: ["20:20"]	
+Unless explicitly needed , it is recommended to use abi.encodePacked() instead of abi.encode().
+
+Scan Summary:
+
+  Lines Analyzed: 74
+
+  Scan Score: 97.84
+
+  Issue Distribution: { "critical": 0, "gas": 2, "high": 0, "informational": 2, "low": 1, "medium": 0 }
+
+For more details, go to SolidityScan.
+
+>

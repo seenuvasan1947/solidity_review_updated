@@ -1,0 +1,17 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[remote "origin"]
+	url = https://github.com/seenuvasan1947/solidity_review.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "main"]
+	remote = origin
+	merge = refs/heads/main
+	vscode-merge-base = origin/main
+[credential]
+	helper = store
+[submodule "somm_finance/somm_finance_deployed_Real_Yield_ENS/lib/forge-std"]
+	url = https://github.com/foundry-rs/forge-std
+	active = true

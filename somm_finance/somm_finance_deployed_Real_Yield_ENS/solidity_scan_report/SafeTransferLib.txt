@@ -1,0 +1,53 @@
+SolidityScan result for code-sample/src/base/SafeTransferLib.sol:
+#	NAME	SEVERITY	CONFIDENCE	DESCRIPTION	REMEDIATION
+1.	MISSING ZERO ADDRESS VALIDATION	low	2	
+The contract is found to lack proper validation for zero address inputs in critical functions, particularly where an 'address' input is expected, like during initialization or setting ownership. Failure to validate zero addresses can result in unwanted contract states, such as having critical roles or operations reference the zero address (0x0), which is universally considered an invalid and non-operational address within Ethereum, potentially leading to the loss of assets or control over the contract's functionality.
+
+Not Available
+2.	OUTDATED COMPILER VERSION	low	2	
+Using an outdated compiler version can be problematic especially if there are publicly disclosed bugs and issues that affect the current compiler version.
+
+Not Available
+3.	MISSING EVENTS	low	1	
+Events are inheritable members of contracts. When you call them, they cause the arguments to be stored in the transaction’s log — a special data structure in the blockchain.
+These logs are associated with the address of the contract which can then be used by developers and auditors to keep track of the transactions.
+The contract was found to be missing these events on the function which would make it difficult or impossible to track these transactions off-chain.
+
+Not Available
+4.	USE OF FLOATING PRAGMA	low	2	
+Solidity source files indicate the versions of the compiler they can be compiled with using a pragma directive at the top of the solidity file. This can either be a floating pragma or a specific compiler version.
+The contract was found to be using a floating pragma which is not considered safe as it can be compiled with all the versions described.
+
+Not Available
+5.	IN-LINE ASSEMBLY DETECTED	informational	2	
+Inline assembly is a way to access the Ethereum Virtual Machine at a low level. This bypasses several important safety features and checks of Solidity. This should only be used for tasks that need it and if there is confidence in using it.
+
+
+Multiple vulnerabilities have been detected previously when the assembly is not properly used within the Solidity code; therefore, caution should be exercised while using them.
+
+Not Available
+6.	REWRITE ON ASSEMBLY CALL	informational	0	
+The Smart Contract is using inline assembly - specifically the instructions of the CALL family such as delegatecall and staticcall. It should be manually checked for data handling and that it does not overwrite the input data by writing output data over it. In case the arbitrary address is passed inside the call, the return value may differ from the expected one.
+
+Not Available
+7.	MISSING UNDERSCORE IN NAMING VARIABLES	informational	0	
+Solidity style guide suggests using underscores as the prefix for non-external functions and state variables (private or internal) but the contract was not found to be following the same.
+
+Not Available
+8.	INTERNAL FUNCTIONS NEVER USED	gas	0	
+The contract declared internal functions but was not using them in any of the functions or contracts.
+Since internal functions can only be called from inside the contracts, it makes no sense to have them if they are not used. This uses up gas and causes issues for auditors when understanding the contract logic.
+
+Lines: ["15:24","94:123","30:61","63:92"]	
+Having dead code in the contracts uses up unnecessary gas and increases the complexity of the overall smart contract.
+It is recommended to remove the internal functions from the contracts if they are never used.
+
+Scan Summary:
+
+  Lines Analyzed: 103
+
+  Scan Score: 88.79
+
+  Issue Distribution: { "critical": 0, "gas": 4, "high": 0, "informational": 11, "low": 10, "medium": 0 }
+
+For more details, go to SolidityScan.

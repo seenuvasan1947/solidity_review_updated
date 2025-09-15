@@ -1,0 +1,72 @@
+SolidityScan result for code-sample/src/modules/adaptors/BaseAdaptor.sol:
+#	NAME	SEVERITY	CONFIDENCE	DESCRIPTION	REMEDIATION
+1.	FUNCTION RETURNS TYPE AND NO RETURN	low	0	
+This function specifies a returns keyword in the function signature but does not mention what to return anywhere in the function. This forces the function to always return a default value that was specified in the signature despite the calculations inside the function.
+
+Not Available
+2.	OUTDATED COMPILER VERSION	low	2	
+Using an outdated compiler version can be problematic especially if there are publicly disclosed bugs and issues that affect the current compiler version.
+
+Not Available
+3.	MISSING EVENTS	low	1	
+Events are inheritable members of contracts. When you call them, they cause the arguments to be stored in the transaction’s log — a special data structure in the blockchain.
+These logs are associated with the address of the contract which can then be used by developers and auditors to keep track of the transactions.
+The contract was found to be missing these events on the function which would make it difficult or impossible to track these transactions off-chain.
+
+Not Available
+4.	MISSING ZERO ADDRESS VALIDATION	low	2	
+The contract is found to lack proper validation for zero address inputs in critical functions, particularly where an 'address' input is expected, like during initialization or setting ownership. Failure to validate zero addresses can result in unwanted contract states, such as having critical roles or operations reference the zero address (0x0), which is universally considered an invalid and non-operational address within Ethereum, potentially leading to the loss of assets or control over the contract's functionality.
+
+Not Available
+5.	MISSING UNDERSCORE IN NAMING VARIABLES	informational	0	
+Solidity style guide suggests using underscores as the prefix for non-external functions and state variables (private or internal) but the contract was not found to be following the same.
+
+Not Available
+6.	UNUSED IMPORTS	gas	2	
+Solidity is a Gas-constrained language. Having unused code or import statements incurs extra gas usage when deploying the contract.
+
+Lines: ["5:5","7:7","8:8"]	
+It is recommended to remove the import statement if it’s not supposed to be used.
+
+7.	ABI ENCODE IS LESS EFFICIENT THAN ABI ENCODEPACKED	gas	0	
+The contract is using abi.encode() in the function. In abi.encode(), all elementary types are padded to 32 bytes and dynamic arrays include their length, whereas abi.encodePacked() will only use the minimal required memory to encode the data.
+
+Lines: ["53:53"]	
+Unless explicitly needed , it is recommended to use abi.encodePacked() instead of abi.encode().
+
+8.	CACHE ADDRESS(THIS) WHEN USED MORE THAN ONCE	gas	0	
+The repeated usage of address(this) within the contract could result in increased gas costs due to multiple executions of the same computation, potentially impacting efficiency and overall transaction expenses.
+
+Lines: ["165:165","173:173","180:180"]	
+Optimize gas usage by caching the value of address(this) and reusing it throughout the contract, reducing redundant computations and thereby enhancing efficiency.
+
+9.	CHEAPER INEQUALITIES IN IF()	gas	1	
+The contract was found to be doing comparisons using inequalities inside the if statement.
+When inside the if statements, non-strict inequalities (>=, <=) are usually cheaper than the strict equalities (>, <).
+
+Lines: ["173:173"]	
+It is recommended to go through the code logic, and, if possible, modify the strict inequalities with the non-strict ones to save ~3 gas as long as the logic of the code is not affected.
+
+10.	INTERNAL FUNCTIONS NEVER USED	gas	0	
+The contract declared internal functions but was not using them in any of the functions or contracts.
+Since internal functions can only be called from inside the contracts, it makes no sense to have them if they are not used. This uses up gas and causes issues for auditors when understanding the contract logic.
+
+Lines: ["60:62","56:58","179:182","172:174","164:167"]	
+Having dead code in the contracts uses up unnecessary gas and increases the complexity of the overall smart contract.
+It is recommended to remove the internal functions from the contracts if they are never used.
+
+11.	CHEAPER CONDITIONAL OPERATORS	gas	0	
+During compilation, x != 0 is cheaper than x > 0 for unsigned integers in solidity inside conditional statements.
+
+Lines: ["173:173"]	
+Consider using x != 0 in place of x > 0 in uint wherever possible.
+
+Scan Summary:
+
+  Lines Analyzed: 169
+
+  Scan Score: 94.32
+
+  Issue Distribution: { "critical": 0, "gas": 14, "high": 0, "informational": 2, "low": 6, "medium": 0 }
+
+For more details, go to SolidityScan.

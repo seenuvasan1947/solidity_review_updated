@@ -1,0 +1,38 @@
+name: Sync with private repo
+
+on:
+  repository_dispatch:
+    types: [sync]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          path: skybridge-public
+
+      - uses: actions/checkout@v4
+        with:
+          repository: aviatorac/skybridge
+          path: private
+          token: ${{ secrets.PURPLEWOLF_TOKEN }}
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup git user
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Run sync script
+        run: |
+          cd private
+          node ./scripts/sync.mjs

@@ -1,0 +1,98 @@
+{
+  "title": "将 {{name}} 引入 ENS",
+  "error": {
+    "unknown": "发生未知错误",
+    "noTxtRecord": "未找到记录",
+    "dnssecFailure": "未启用 DNSSEC",
+    "invalidTxtRecord": "找到的记录无效",
+    "invalidAddressChecksum": "地址无效",
+    "resolutionFailure": "提供的记录无法解析"
+  },
+  "status": {
+    "checking": "检查中...",
+    "error": "检查时发生错误",
+    "secondsAgo": "几秒前检查过",
+    "aWhileAgo": "很久前检查过",
+    "minutesAgo_one": "{{count}} 分钟前检查过",
+    "minutesAgo_other": "{{count}} 分钟前检查过"
+  },
+  "steps": {
+    "selectType": {
+      "title": "认领 {{name}}",
+      "subtitle": "导入域名后可以将其用作 ENS 名称。",
+      "learnMore": "了解更多关于导入名称的信息",
+      "select": {
+        "heading": "您想如何导入您的域名？",
+        "offchain": {
+          "name": "链下",
+          "tag": "免费",
+          "description": "您的名称将不会有链上代币。<br/>这不会影响其接收交易或作为主名称的能力。<br/><b>您将无法在 ENS app 内编辑您的个人资料。</b>"
+        },
+        "onchain": {
+          "name": "链上",
+          "description": "您的名称将拥有链上代币。"
+        }
+      }
+    },
+    "enableDnssec": {
+      "title": "启用 DNSSEC",
+      "help": {
+        "findOutRegistrar": "查看您的注册商"
+      },
+      "status": {
+        "enabled": "此域名已启用 DNSSEC。",
+        "disabled": {
+          "heading": "您需要访问您的域名注册商来启用 DNSSEC。",
+          "message": "未启用 DNSSEC",
+          "help": "启用 DNSSEC 帮助"
+        }
+      }
+    },
+    "verifyOwnership": {
+      "title": "验证所有权",
+      "status": {
+        "disconnected": "请连接您的钱包以验证所有权。",
+        "mismatching": {
+          "heading": "添加以下 DNS 记录以验证您对此域名的所有权。",
+          "help": "添加 TXT 记录帮助",
+          "message": "未找到记录",
+          "error": {
+            "onchain": "找到的记录与您连接的地址不匹配。您仍然可以导入此名称，但您将不拥有其所有权。",
+            "offchain": "找到的记录与您连接的地址不匹配。您仍然可以导入此名称，但它将不会指向您连接的地址，也不能用作您的主名称。"
+          }
+        },
+        "matching": "找到与您连接的地址匹配的记录。"
+      },
+      "action": {
+        "importWithoutOwnership": "不验证所有权直接导入"
+      }
+    },
+    "transaction": {
+      "mismatching": {
+        "title": "导入此域名",
+        "subtitle": "您的所有权<b>未</b>得到验证。您仍然可以导入此域名。"
+      },
+      "matching": {
+        "title": "认领您的域名",
+        "subtitle": "您的所有权已得到验证。"
+      },
+      "estimatedNetworkCost": "预估网络费用"
+    },
+    "complete": {
+      "title": "恭喜！",
+      "import": {
+        "subtitle": "<gradient>{{name}}</gradient> 已导入",
+        "description": "此域名已成功导入 ENS。您现在可以查看此名称。",
+        "warning": "免 Gas 费的 DNS 名称目前不会显示在您的“名称”列表中。"
+      },
+      "claim": {
+        "subtitle": "您现在是 <gradient>{{name}}</gradient> 的所有者",
+        "description": "您的域名已成功认领。您现在可以查看和管理您的名称。"
+      },
+      "action": {
+        "claimAnother": "再认领一个",
+        "viewName": "查看名称"
+      }
+    }
+  }
+}

@@ -1,0 +1,225 @@
+SolidityScan result for code-sample/src/modules/price-router/PriceRouter.sol:
+#	NAME	SEVERITY	CONFIDENCE	DESCRIPTION	REMEDIATION
+1.	INCORRECT ACCESS CONTROL	critical	1	
+Access control plays an important role in the segregation of privileges in smart contracts and other applications. If this is misconfigured or not properly validated on sensitive functions, it may lead to loss of funds, tokens and in some cases compromise of the smart contract.
+
+The contract is importing an access control library but the function is missing the modifier.
+
+Not Available
+2.	DEPRECATED CHAINLINK PRICEFEED	medium	0	
+The Chainlink API used in the contract is deprecated.
+This function does not throw an error if no answer has been reached but returns 0.
+
+Not Available
+3.	LIMITATIONS OF SOLIDITY'S TRY-CATCH IN EXTERNAL CALLS	medium	2	
+Solidity's try-catch feature aims to manage errors during external calls within smart contracts. However, it has limitations. It won't catch errors if the target isn't a contract expecting a return value, if the return value has a different number of arguments, or if the target lacks the method being called.
+
+Not Available
+4.	CURVE STALE PRICE ORACLE	medium	0	
+The contract is using price_oracle() function to get Curve price oracle. but it’s not checking whether the returned price is fresh or not. This will result in using stale price for the calculations leading to incorrect arithmetic results and funds loss.
+
+Not Available
+5.	IMPRECISE ARITHMETIC OPERATIONS ORDER	medium	1	
+There are no floating points in Solidity, and the compiler only interacts with integers. This creates a constraint when the code is doing division operations before multiplication and introduces rounding errors.
+
+Not Available
+6.	PRECISION LOSS DURING DIVISION BY LARGE NUMBERS	medium	2	
+In Solidity, when dividing large numbers, precision loss can occur due to limitations in the Ethereum Virtual Machine (EVM). Solidity lacks native support for decimal or fractional numbers, leading to truncation of division results to integers. This can result in inaccuracies or unexpected behaviors, especially when the numerator is not significantly larger than the denominator.
+
+Not Available
+7.	MISSING EVENTS	low	1	
+Events are inheritable members of contracts. When you call them, they cause the arguments to be stored in the transaction’s log — a special data structure in the blockchain.
+These logs are associated with the address of the contract which can then be used by developers and auditors to keep track of the transactions.
+The contract was found to be missing these events on the function which would make it difficult or impossible to track these transactions off-chain.
+
+Not Available
+8.	ERROR-PRONE TYPECASTING	low	2	
+Thevalue is found to be typecasted more than once which is not standard, making the contract’s logic more complex, and error-prone.
+
+Not Available
+9.	USE OWNABLE2STEP	low	0	
+Ownable2Step is safer than Ownable for smart contracts because the owner cannot accidentally transfer the ownership to a mistyped address. Rather than directly transferring to the new owner, the transfer only completes when the new owner accepts ownership.
+
+Not Available
+10.	OUTDATED COMPILER VERSION	low	2	
+Using an outdated compiler version can be problematic especially if there are publicly disclosed bugs and issues that affect the current compiler version.
+
+Not Available
+11.	MISSING ZERO ADDRESS VALIDATION	low	2	
+The contract is found to lack proper validation for zero address inputs in critical functions, particularly where an 'address' input is expected, like during initialization or setting ownership. Failure to validate zero addresses can result in unwanted contract states, such as having critical roles or operations reference the zero address (0x0), which is universally considered an invalid and non-operational address within Ethereum, potentially leading to the loss of assets or control over the contract's functionality.
+
+Not Available
+12.	FUNCTION RETURNS TYPE AND NO RETURN	low	0	
+This function specifies a returns keyword in the function signature but does not mention what to return anywhere in the function. This forces the function to always return a default value that was specified in the signature despite the calculations inside the function.
+
+Not Available
+13.	MISSING UNDERSCORE IN NAMING VARIABLES	informational	0	
+Solidity style guide suggests using underscores as the prefix for non-external functions and state variables (private or internal) but the contract was not found to be following the same.
+
+Not Available
+14.	BLOCK VALUES AS A PROXY FOR TIME	informational	1	
+Contracts often need access to time values to perform certain types of functionality. Values such as block.timestamp and block.number can be used to determine the current time or the time delta. However, they are not recommended for most use cases.
+
+
+For block.number, as Ethereum block times are generally around 14 seconds, the delta between blocks can be predicted. The block times, on the other hand, do not remain constant and are subject to change for a number of reasons, e.g., fork reorganizations and the difficulty bomb.
+
+
+Due to variable block times, block.number should not be relied on for precise calculations of time.
+
+Not Available
+15.	IF-STATEMENT REFACTORING	informational	0	
+In Solidity, we aim to write clear, efficient code that is both easy to understand and maintain. If statements can be converted to ternary operators. While using ternary operators instead of if/else statements can sometimes lead to more concise code, it's crucial to understand the trade-offs involved.
+
+Not Available
+16.	USE SCIENTIFIC NOTATION	informational	0	
+Although the Solidity compiler can optimize exponentiation, it is recommended to prioritize idioms not reliant on compiler optimization. Utilizing scientific notation enhances code clarity, making it more self-explanatory and aligning with best practices in Solidity development.
+
+Not Available
+17.	RETURN INSIDE LOOP	informational	2	
+The function has defined a return keyword inside a loop. This represents an error because the loop will simply return on it’s first iteration.
+
+Not Available
+18.	HARD-CODED ADDRESS DETECTED	informational	0	
+The contract contains an unknown hard-coded address. This address might be used for some malicious activity. Please check the hard-coded address and its usage.
+These hard-coded addresses may be used everywhere throughout the code to define states and interact with the functions and external calls.
+Therefore, it is extremely crucial to ensure the correctness of these token contracts as they define various important aspects of the protocol operation.
+A misconfigured address mapping could lead to the potential loss of user funds or compromise of the contract owner depending on the function logic.
+
+Not Available
+19.	CONSIDER USING UINT48 FOR TIME-RELATED VARIABLES	informational	2	
+The contract defines time-related variables as uint256. Since Unix timestamps can be adequately represented using uint48, utilizing uint256 for these variables results in unnecessary gas consumption due to larger storage requirements.
+
+Not Available
+20.	REVERT STATEMENTS WITHIN EXTERNAL AND PUBLIC FUNCTIONS CAN BE USED TO PERFORM DOS ATTACKS	informational	0	
+In public and external functions, improper use of revert can be exploited for Denial of Service (DoS) attacks. An attacker can intentionally trigger these 'revert' conditions, causing legitimate transactions to consistently fail. For example, if a function relies on specific conditions from user input or contract state, an attacker could manipulate these to continually force reverts, blocking the function's execution.
+
+Not Available
+21.	REQUIRE INSTEAD OF REVERT	informational	1	
+The require Solidity function guarantees the validity of the condition(s) passed as a parameter that cannot be detected before execution. It checks inputs, contract state variables, and return values from calls to external contracts.
+
+
+Using require instead of revert improves the overall readability of the contract code.
+
+
+The construction if (condition) { revert(); } is equivalent to require(!condition);
+
+Not Available
+22.	USE OF DECIMALS	informational	2	
+In some of the decentralized exchanges, it’s not always safe to assume that a token will return 18 decimals when calling the token.decimals() function. This could cause miscalculations in amount.
+
+Not Available
+23.	CUSTOM ERRORS TO SAVE GAS	gas	2	
+The contract was found to be using revert() statements. Since Solidity v0.8.4, custom errors have been introduced which are a better alternative to the revert.
+This allows the developers to pass custom errors with dynamic data while reverting the transaction and also making the whole implementation a bit cheaper than using revert.
+
+Lines: ["511:511","933:933","1005:1005","1047:1047"]	
+It is recommended to replace all the instances of revert() statements with error() to save gas.
+
+24.	STORING STORAGE VARIABLES IN MEMORY	gas	0	
+Whenever a struct, array, or a mapping is stored and copied to a memory variable, each member is read from the storage and then copied. This becomes expensive. This could easily be optimized by using the storage keyword which just stores a pointer to the storage instead, making the whole process a lot cheaper.
+
+Lines: ["192:192","206:206","255:255","207:207","256:256","284:284","542:542","700:700","816:816","924:924","937:937","1021:1021","1028:1028"]	
+It is recommended to use storage instead of memory in this particular case to optimize gas.
+
+25.	FUNCTIONS CAN BE IN-LINED	gas	0	
+The internal function was called only once throughout the contract. Internal functions cost more gas due to additional JUMP instructions and stack operations.
+
+Lines: ["494:532","537:553","588:603","880:912","917:947","957:987","1012:1048","1061:1064","1069:1076"]	
+Creating a function for a single call is not necessary if it can be in-lined. It is recommended to implement the logic using in-line codes to save gas.
+
+26.	UNNECESSARY CHECKED ARITHMETIC IN LOOP	gas	0	
+Increments inside a loop could never overflow due to the fact that the transaction will run out of gas before the variable reaches its limits. Therefore, it makes no sense to have checked arithmetic in such a place.
+
+Lines: ["292:292","347:347","438:438","723:723","894:894","969:969","927:927","997:997"]	
+It is recommended to have the increment value inside the unchecked block to save some gas.
+
+27.	PUBLIC CONSTANTS CAN BE PRIVATE	gas	2	
+Public constant variables cost more gas because the EVM automatically creates getter functions for them and adds entries to the method ID table. The values can be read from the source code instead.
+
+Lines: ["86:86","487:487","644:644"]	
+If reading the values for the constants are not necessary, consider changing the public visibility to private.
+
+28.	AVOID ZERO-TO-ONE STORAGE WRITES	gas	2	
+Writing a storage variable from zero to a non-zero value costs 22,100 gas (20,000 for the write and 2,100 for cold access), making it one of the most expensive operations. This is why patterns like OpenZeppelin’s ReentrancyGuard use 1 and 2 instead of 0 and 1—to avoid the high cost of zero-to-non-zero writes. Non-zero to non-zero updates cost only 5,000 gas.
+
+Lines: ["670:670","683:683"]	
+To mitigate this gas inefficiency, consider initializing storage variables to non-zero values during contract deployment if possible. Alternatively, design contract logic to minimize the number of times storage variables are set from zero to non-zero values. This can be achieved by setting default non-zero values where applicable or by batching storage updates to reduce the frequency of costly initializations.
+
+29.	SMALLER DATA TYPES COST MORE	gas	0	
+Usage of smaller integer types such as uint8, uint16, int8, or int16 in arithmetic operations incur additional gas costs compared to the default uint and int types, which are typically uint256 and int256 respectively.
+
+Lines: ["371:371","404:404"]	
+Replace occurrences of smaller integer types (uint8, uint16, int8, int16) with the default integer types (uint or int). This can be achieved by simply using uint or int, which are automatically mapped to uint256 and int256 respectively in Solidity version 0.8.0 and above.
+
+30.	ARRAY LENGTH CACHING	gas	2	
+During each iteration of the loop, reading the length of the array uses more gas than is necessary. In the most favorable scenario, in which the length is read from a memory variable, storing the array length in the stack can save about 3 gas per iteration. In the least favorable scenario, in which external calls are made during each iteration, the amount of gas wasted can be significant.
+
+Lines: ["438:460","927:931"]	
+Consider storing the array length of the variable before the loop and use the stored length instead of fetching it in each iteration.
+
+31.	STORAGE VARIABLE CACHING IN MEMORY	gas	0	
+The contract is using the state variable multiple times in the function.
+
+SLOADs are expensive (100 gas after the 1st one) compared to MLOAD/MSTORE (3 gas each).
+
+Lines: ["116:147","205:214","254:271","279:304","340:382","421:462","537:553","713:769","713:769","1012:1048"]	
+Storage variables read multiple times inside a function should instead be cached in the memory the first time (costing 1 SLOAD) and then read from this cache to avoid multiple SLOADs.
+
+32.	NAMED RETURN OF LOCAL VARIABLE SAVES GAS AS COMPARED TO RETURN STATEMENT	gas	0	
+The function having a return type is found to be declaring a local variable for returning, which causes extra gas consumption. This inefficiency arises because creating and manipulating local variables requires additional computational steps and memory allocation.
+
+Lines: ["321:333","340:382","421:462","537:553"]	
+It is advisable to use a named returns statement in the function itself to save gas. Named returns optimize gas usage by directly returning variables declared at the function's signature, eliminating the need for additional memory allocation and manipulation of local variables.
+
+33.	CHEAPER INEQUALITIES IN IF()	gas	1	
+The contract was found to be doing comparisons using inequalities inside the if statement.
+When inside the if statements, non-strict inequalities (>=, <=) are usually cheaper than the strict equalities (>, <).
+
+Lines: ["144:144","371:371","596:596","598:598","601:601","718:718","819:819","825:825","863:863","864:864"]	
+It is recommended to go through the code logic, and, if possible, modify the strict inequalities with the non-strict ones to save ~3 gas as long as the logic of the code is not affected.
+
+34.	ABI ENCODE IS LESS EFFICIENT THAN ABI ENCODEPACKED	gas	0	
+The contract is using abi.encode() in the function. In abi.encode(), all elementary types are padded to 32 bytes and dynamic arrays include their length, whereas abi.encodePacked() will only use the minimal required memory to encode the data.
+
+Lines: ["758:758","765:765"]	
+Unless explicitly needed , it is recommended to use abi.encodePacked() instead of abi.encode().
+
+35.	LONG NUMBER LITERALS	gas	2	
+Solidity supports multiple rational and integer literals, including decimal fractions and scientific notations. The use of very large numbers with too many digits was detected in the code that could have been optimized using a different notation also supported by Solidity.
+
+Lines: ["989:989","991:991"]	
+Scientific notation in the form of 2e10 is also supported, where the mantissa can be fractional but the exponent has to be an integer. The literal MeE is equivalent to M * 10**E. Examples include 2e10, 2e10, 2e-10, 2.5e1, as suggested in official solidity documentation https://docs.soliditylang.org/en/latest/types.html#rational-and-integer-literals
+
+36.	AVOID RE-STORING VALUES	gas	0	
+The function is found to be allowing re-storing the value in the contract's state variable even when the old value is equal to the new value. This practice results in unnecessary gas consumption due to the Gsreset operation (2900 gas), which could be avoided. If the old value and the new value are the same, not updating the storage would avoid this cost and could instead incur a Gcoldsload (2100 gas) or a Gwarmaccess (100 gas), potentially saving gas.
+
+Lines: ["116:147","655:657","669:671","682:684","795:797","1069:1076"]	
+To optimize gas usage, add a check to compare the old value with the new value before updating the storage. Only perform the storage update if the new value is different from the old value. This approach will prevent unnecessary storage writes and reduce gas consumption.
+
+37.	ASSIGNING TO STRUCTS CAN BE MORE EFFICIENT	gas	0	
+The contract is found to contain a struct with multiple variables defined in it. When a struct is assigned in a single operation, Solidity may perform costly storage operations, which can be inefficient. This often results in increased gas costs due to multiple SLOAD and SSTORE operations happening at once
+
+Lines: ["375:375"]	
+Instead of assigning all struct elements at once, initialize the struct as empty and assign each element individually. This can help in reducing gas costs by minimizing potentially expensive storage operations in a single transaction.
+
+38.	REVERTING FUNCTIONS CAN BE PAYABLE	gas	0	
+If a function modifier such as onlyOwner is used, the function will revert if a normal user tries to pay the function. Marking the function as payable will lower the gas cost for legitimate callers because the compiler will not include checks for whether a payment was provided.
+
+Lines: ["116:147","655:657","669:671","682:684","694:704","795:797"]	
+In the above code, the onlyOwner modifier ensures that only the contract owner can execute the ${function_name}. If a normal user attempts to call this function, the transaction will automatically revert. By marking the ${function_name} as payable, we can optimize gas costs for legitimate callers since the compiler will skip the checks for payment.
+
+39.	GAS OPTIMIZATION IN INCREMENTS	gas	0	
+++i costs less gas compared to i++ or i += 1 for unsigned integers. In i++, the compiler has to create a temporary variable to store the initial value. This is not the case with ++i in which the value is directly incremented and returned, thus, making it a cheaper alternative.
+
+Lines: ["292:292","438:438","723:723","894:894","969:969","927:927","997:997"]	
+Consider changing the post-increments (i++) to pre-increments (++i) as long as the value is not used in any calculations or inside returns. Make sure that the logic of the code is not changed.
+
+Scan Summary:
+
+  Lines Analyzed: 955
+
+  Scan Score: 91.97
+
+  Issue Distribution: { "critical": 0, "gas": 85, "high": 0, "informational": 40, "low": 21, "medium": 7 }
+
+For more details, go to SolidityScan.
