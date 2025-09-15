@@ -74,6 +74,7 @@ contract Cellar is ERC4626, Owned, ERC721Holder {
 
         if (checkTotalAssets) {
             uint256 assetsBefore = totalAssets();
+            //?check if this is correct and not leading to loss of precision
             minAssets = assetsBefore.mulDivDown(1e4 - allowableRange, 1e4);
             maxAssets = assetsBefore.mulDivDown(1e4 + allowableRange, 1e4);
         }
@@ -327,7 +328,7 @@ contract Cellar is ERC4626, Owned, ERC721Holder {
             adaptorData: adaptorData,
             configurationData: configurationData
         });
-
+        //? why not optimse this by pointer and terinary if else for gas saving
         if (isDebt) {
             if (debtPositions.length >= MAX_POSITIONS) revert Cellar__PositionArrayFull(MAX_POSITIONS);
             // Add new position at a specified index.
@@ -370,7 +371,7 @@ contract Cellar is ERC4626, Owned, ERC721Holder {
      */
     function _removePosition(uint32 index, uint32 positionId, bool inDebtArray) internal {
         if (positionId == holdingPosition) revert Cellar__RemovingHoldingPosition();
-
+        //? why not optimse this by pointer and terinary if else for gas saving
         if (inDebtArray) {
             // Remove position at the given index.
             debtPositions.remove(index);
@@ -394,7 +395,7 @@ contract Cellar is ERC4626, Owned, ERC721Holder {
         // Get the new positions that will be at each index.
         uint32 newPosition1;
         uint32 newPosition2;
-
+        //? why not optimse this by pointer and terinary if else for gas saving
         if (inDebtArray) {
             newPosition1 = debtPositions[index2];
             newPosition2 = debtPositions[index1];
