@@ -452,6 +452,7 @@ contract Cellar is ERC4626, Owned, ERC721Holder {
                           This should be a value out of 1e18 (ie. 1e18 represents 100%, 0 represents 0%).
      * @param strategistPayoutAddress Address to send the strategists fee shares.
      */
+    //? what about lastAccrual?
     struct FeeData {
         uint64 strategistPlatformCut;
         uint64 platformFee;
@@ -537,8 +538,16 @@ contract Cellar is ERC4626, Owned, ERC721Holder {
     /**
      * @notice View function external contracts can use to see if the cellar is paused.
      */
+    // info here it is callable by this contract and any other contract ..
     function isPaused() external view returns (bool) {
+        // ? check who is able to change that ignorePause and when it get changed
+        // ? check is that this ignorePause can be manipulated or re-entrancy attack can do for after triger that isignore state change and befor state update do any operation 
+        
+
         if (!ignorePause) {
+            // info from registry check wheather this contract is paused or not 
+            // ? check is that iscallerpause only posible of return bool 
+          
             return registry.isCallerPaused(address(this));
         }
         return false;
