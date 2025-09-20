@@ -540,13 +540,13 @@ contract Cellar is ERC4626, Owned, ERC721Holder {
      */
     // info here it is callable by this contract and any other contract ..
     function isPaused() external view returns (bool) {
-        // ? check who is able to change that ignorePause and when it get changed
-        // ? check is that this ignorePause can be manipulated or re-entrancy attack can do for after triger that isignore state change and befor state update do any operation 
-        
+        //? check who is able to change that ignorePause and when it get changed
+        //? check is that this ignorePause can be manipulated or re-entrancy attack can do for after triger that isignore state change and befor state update do any operation 
+
 
         if (!ignorePause) {
             // info from registry check wheather this contract is paused or not 
-            // ? check is that iscallerpause only posible of return bool 
+            //? check is that iscallerpause only posible of return bool 
           
             return registry.isCallerPaused(address(this));
         }
@@ -572,6 +572,7 @@ contract Cellar is ERC4626, Owned, ERC721Holder {
     /**
      * @notice Prevent a function from being called during a shutdown.
      */
+    //? this is only for this contract or not check 
     function _whenNotShutdown() internal view {
         if (isShutdown) revert Cellar__ContractShutdown();
     }
@@ -580,6 +581,8 @@ contract Cellar is ERC4626, Owned, ERC721Holder {
      * @notice Shutdown the cellar. Used in an emergency or if the cellar has been deprecated.
      * @dev In the case where
      */
+    //? while any transation or process occur or get started and befor it get complete if this shutdown is initiated what about that pending transaction is that revert properlly or any loss of cash ?? check
+    
     function initiateShutdown() external onlyOwner {
         _whenNotShutdown();
         isShutdown = true;
